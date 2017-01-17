@@ -1,0 +1,9 @@
+package ca.team4519.lib;
+
+public abstract class Subsystem {
+
+	public abstract void resetSensors();
+	
+	public abstract void update();
+	
+}
