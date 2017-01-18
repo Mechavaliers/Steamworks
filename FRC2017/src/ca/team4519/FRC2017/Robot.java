@@ -1,6 +1,8 @@
 
 package ca.team4519.FRC2017;
 
+import ca.team4519.FRC2017.auton.modes.*;
+
 import ca.team4519.FRC2017.subsystems.Drivebase;
 import ca.team4519.FRC2017.subsystems.Shooter;
 import ca.team4519.FRC2017.subsystems.Climber;
@@ -16,8 +18,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
   
+	Command autoToExecute;	
 	SendableChooser autoMode = new SendableChooser();
-	Command autoToExecute;
+	
 	
 	Drivebase driveBase = new Drivebase();
 	Shooter flywheel = new Shooter();
@@ -26,15 +29,16 @@ public class Robot extends IterativeRobot {
 	Hopper ballHolder = new Hopper();
 	
 	
-    public void robotInit() {
+
+	public void robotInit() {
        
     	
-    	autoMode.addObject("Cross Baseline", null);
-    	autoMode.addObject("Hang Gear Right", null);
-    	autoMode.addObject("Hang Gear Center", null);
-    	autoMode.addObject("Hang Gear Left", null);
-    	autoMode.addObject("Red-Alliance: Gear+Shoot", null);
-    	autoMode.addObject("Blue-Alliance: Gear+Shoot", null);
+    	autoMode.addDefault("Do Nothing", null);
+    	autoMode.addObject("Hang Gear Right", new HangGearRight());
+    	autoMode.addObject("Hang Gear Center", new HangGearCenter());
+    	autoMode.addObject("Hang Gear Left", new HangGearLeft());
+    	autoMode.addObject("Red-Alliance: Gear+Shoot", new GearNShootRed());
+    	autoMode.addObject("Blue-Alliance: Gear+Shoot", new GearNShootBlue());
     	SmartDashboard.putData("Autonomous Mode Selector", autoMode);
     }
     
