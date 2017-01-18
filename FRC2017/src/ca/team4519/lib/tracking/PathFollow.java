@@ -8,6 +8,17 @@ public class PathFollow {
 	
 	public static class Waypoint {
 		
+		public final double x;
+		public final double y;
+
+		public Waypoint(double x, double y){
+			this.x = x;
+			this.y = y;
+		}
+	}
+	
+	public PathFollow(List<Waypoint> waypoints){
+		
 	}
 	
 }
