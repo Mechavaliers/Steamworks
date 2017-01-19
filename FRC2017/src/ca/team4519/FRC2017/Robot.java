@@ -6,6 +6,7 @@ import ca.team4519.FRC2017.auton.modes.*;
 import ca.team4519.FRC2017.subsystems.Drivebase;
 import ca.team4519.FRC2017.subsystems.Shooter;
 import ca.team4519.FRC2017.subsystems.Climber;
+import ca.team4519.FRC2017.subsystems.Controller;
 import ca.team4519.FRC2017.subsystems.GearBox;
 import ca.team4519.FRC2017.subsystems.Hopper;
 
@@ -27,11 +28,13 @@ public class Robot extends IterativeRobot {
 	Climber muscles = new Climber();
 	GearBox gearDevice = new GearBox();
 	Hopper ballHolder = new Hopper();
+	Controller PS4 = new Controller();
 	
 	
 
 	public void robotInit() {
        
+		driveBase.subsystemInit();
     	
     	autoMode.addDefault("Do Nothing", null);
     	autoMode.addObject("Hang Gear Right", new HangGearRight());
@@ -56,8 +59,13 @@ public class Robot extends IterativeRobot {
     	Scheduler.getInstance().run();
     }
 
+    public void teleopInit(){
+    	Scheduler.getInstance().disable();
+    	driveBase.resetSensors();
+    }
+    
     public void teleopPeriodic() {
-        
+        driveBase.arcadeDriveMath(PS4.getLeftStick_Y(), PS4.getRightStick_X());
     }
 
     public void testPeriodic() {
