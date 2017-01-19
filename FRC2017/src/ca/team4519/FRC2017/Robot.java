@@ -45,9 +45,6 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putData("Autonomous Mode Selector", autoMode);
     }
     
-    public void updateAll() {
-    	
-    }
     
     public void autonomousInit() {
     	
@@ -68,9 +65,6 @@ public class Robot extends IterativeRobot {
         driveBase.arcadeDriveMath(PS4.getLeftStick_Y(), PS4.getRightStick_X());
     }
 
-    public void testPeriodic() {
-    
-    }
     
     public void disabledInit() {
     	driveBase.disableSubsystem();
@@ -80,4 +74,11 @@ public class Robot extends IterativeRobot {
     	ballHolder.disableSubsystem();
     }
     
+    public void allPeriodic() {
+    	driveBase.update();
+    	flywheel.update();
+    	muscles.update();
+    	gearDevice.update();
+    	ballHolder.update();
+    }
 }
