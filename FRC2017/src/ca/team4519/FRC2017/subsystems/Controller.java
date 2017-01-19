@@ -94,4 +94,10 @@ public class Controller extends Subsystem {
 	public void update() {
 	}
 
+	@Override
+	public void disableSubsystem() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

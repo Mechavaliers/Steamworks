@@ -54,7 +54,7 @@ public class Drivebase extends Subsystem{
 		rightDriveMotor.set(rightOutput);
 	}
 	
-	public void killAll() {
+	public void disableSubsystem() {
 		
 		leftPower = 0;
 		rightPower = 0;
