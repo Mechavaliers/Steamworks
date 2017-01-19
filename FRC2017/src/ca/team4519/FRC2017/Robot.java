@@ -64,4 +64,12 @@ public class Robot extends IterativeRobot {
     
     }
     
+    public void disabledInit() {
+    	driveBase.disableSubsystem();
+    	flywheel.disableSubsystem();
+    	muscles.disableSubsystem();
+    	gearDevice.disableSubsystem();
+    	ballHolder.disableSubsystem();
+    }
+    
 }

@@ -22,7 +22,7 @@ public class Drivebase extends Subsystem{
 	Encoder leftDriveEncoder;
 	Encoder rightDriveEncoder;
 	
-	public void drivebaseInit() {
+	public void subsystemInit() {
 		leftDriveMotor = new VictorSP(Constants.leftDrivePWM);
 		rightDriveMotor = new VictorSP(Constants.rightDrivePWM);
 		

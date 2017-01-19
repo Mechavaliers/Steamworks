@@ -22,4 +22,10 @@ public class Hopper extends Subsystem{
 		
 	}
 
+	@Override
+	public void subsystemInit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

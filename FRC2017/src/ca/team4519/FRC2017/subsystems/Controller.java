@@ -96,6 +96,12 @@ public class Controller extends Subsystem {
 
 	@Override
 	public void disableSubsystem() {
+		rumbleOff();
+		
+	}
+
+	@Override
+	public void subsystemInit() {
 		// TODO Auto-generated method stub
 		
 	}
