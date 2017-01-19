@@ -10,10 +10,8 @@ public class Constants {
 	public static final int gamepad = 0;
 	
 	//Drivebase-Motors
-	public static final int leftDriveA = 0;
-	public static final int leftDriveB = 0;
-	public static final int rightDriveA = 0;
-	public static final int rightDriveB = 0;
+	public static final int leftDrivePWM = 0;
+	public static final int rightDrivePWM = 0;
 	
 	//Drivebase-Sensors
 	public static final int leftDriveEncoderA = 0;

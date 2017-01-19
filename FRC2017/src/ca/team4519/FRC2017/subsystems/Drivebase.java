@@ -10,10 +10,8 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class Drivebase extends Subsystem{
 
-	VictorSP leftDriveA;
-	VictorSP leftDriveB;
-	VictorSP rightDriveA;
-	VictorSP rightDriveB;
+	VictorSP leftDriveMotor;
+	VictorSP rightDriveMotor;
 	
 	double leftPower;
 	double rightPower;
@@ -25,10 +23,8 @@ public class Drivebase extends Subsystem{
 	Encoder rightDriveEncoder;
 	
 	public void drivebaseInit() {
-		leftDriveA = new VictorSP(Constants.leftDriveA);
-		leftDriveB = new VictorSP(Constants.leftDriveB);
-		rightDriveA = new VictorSP(Constants.rightDriveA);
-		rightDriveB = new VictorSP(Constants.rightDriveB);
+		leftDriveMotor = new VictorSP(Constants.leftDrivePWM);
+		rightDriveMotor = new VictorSP(Constants.rightDrivePWM);
 		
 		gyro = new ADXRS450_Gyro();
 		
@@ -54,10 +50,8 @@ public class Drivebase extends Subsystem{
 	
 	public void setLeftRightPower(double leftOutput, double rightOutput) {
 		
-		leftDriveA.set(leftOutput);
-		leftDriveB.set(leftOutput);
-		rightDriveA.set(rightOutput);
-		rightDriveB.set(rightOutput);
+		leftDriveMotor.set(leftOutput);
+		rightDriveMotor.set(rightOutput);
 	}
 	
 	public void killAll() {
