@@ -1,4 +1,3 @@
-
 package ca.team4519.FRC2017;
 
 import ca.team4519.FRC2017.auton.modes.*;
@@ -16,7 +15,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
+/*
+ * @Author Connor Adams
+ */
 public class Robot extends IterativeRobot {
   
 	Command autoToExecute;	
