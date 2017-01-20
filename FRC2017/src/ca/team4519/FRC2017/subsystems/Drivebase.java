@@ -10,19 +10,19 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class Drivebase extends Subsystem{
 
-	VictorSP leftDriveMotor;
-	VictorSP rightDriveMotor;
+	public static Drivebase thisInstance = new Drivebase();
 	
-	double leftPower;
-	double rightPower;
+	public static Drivebase grabInstance(){
+		return thisInstance;
+	}
 	
-	
+	private final VictorSP leftDriveMotor, rightDriveMotor;
+	Encoder leftDriveEncoder, rightDriveEncoder;
 	ADXRS450_Gyro gyro;
 	
-	Encoder leftDriveEncoder;
-	Encoder rightDriveEncoder;
+	double leftPower, rightPower;
 	
-	public void subsystemInit() {
+	public Drivebase() {
 		leftDriveMotor = new VictorSP(Constants.leftDrivePWM);
 		rightDriveMotor = new VictorSP(Constants.rightDrivePWM);
 		
@@ -34,7 +34,6 @@ public class Drivebase extends Subsystem{
 		gyro.calibrate();
 	}
 	
-
 	public void resetSensors() {
 		leftDriveEncoder.reset();
 		rightDriveEncoder.reset();
@@ -66,6 +65,5 @@ public class Drivebase extends Subsystem{
 		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
 		
 	}
-	
 	
 }

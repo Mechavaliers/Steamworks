@@ -22,10 +22,4 @@ public class GearBox extends Subsystem{
 		
 	}
 
-	@Override
-	public void subsystemInit() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
