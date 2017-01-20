@@ -115,7 +115,6 @@ public class MechaRobotBase extends RobotBase {
   }
 
 
-  @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
   public void testInit() {
     System.out.println("Default IterativeRobot.testInit() method... Overload me!");
   }
@@ -164,7 +163,6 @@ public class MechaRobotBase extends RobotBase {
   }
   private boolean m_tmpFirstRun = true;
 
-  @SuppressWarnings("PMD.JUnit4TestShouldUseTestAnnotation")
   public void testPeriodic() {
     if (m_tmpFirstRun) {
       System.out.println("Default IterativeRobot.testPeriodic() method... Overload me!");
