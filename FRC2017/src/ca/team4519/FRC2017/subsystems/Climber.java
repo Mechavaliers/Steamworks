@@ -4,6 +4,12 @@ import ca.team4519.lib.Subsystem;
 
 public class Climber extends Subsystem{
 
+	public static Climber thisInstance = new Climber();
+	
+	public static Climber grabInstance() {
+		return thisInstance;
+	}
+	
 	@Override
 	public void resetSensors() {
 		// TODO Auto-generated method stub

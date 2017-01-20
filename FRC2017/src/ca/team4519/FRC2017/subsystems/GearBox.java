@@ -4,6 +4,12 @@ import ca.team4519.lib.Subsystem;
 
 public class GearBox extends Subsystem{
 
+	public static GearBox thisInstance = new GearBox();
+	
+	public static GearBox grabInstance() {
+		return thisInstance;
+	}
+	
 	@Override
 	public void resetSensors() {
 		// TODO Auto-generated method stub
