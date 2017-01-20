@@ -20,9 +20,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
   
 	Command autoToExecute;	
-	SendableChooser autoMode = new SendableChooser();
-	
-	
+	SendableChooser<Command> autoMode = new SendableChooser<Command>();
+	SendableChooser<String> allianceSelector = new SendableChooser<String>();
+	SendableChooser<String> robotPosition = new SendableChooser<String>();
+ 	
 	Drivebase driveBase = new Drivebase();
 	Shooter flywheel = new Shooter();
 	Climber muscles = new Climber();
@@ -34,14 +35,17 @@ public class Robot extends IterativeRobot {
 
 	public void robotInit() {
        
-		driveBase.subsystemInit();
-    	
+		allianceSelector.addObject("Red Alliance", "Red");
+		allianceSelector.addObject("Blue Alliance", "Blue");
+		SmartDashboard.putData("Alliance Selector", allianceSelector);
+		
+		robotPosition.addObject("Left Field", "Left");
+		robotPosition.addObject("Center Field", "Center");
+		robotPosition.addObject("Right Field", "Right");
+		
     	autoMode.addDefault("Do Nothing", null);
-    	autoMode.addObject("Hang Gear Right", new HangGearRight());
-    	autoMode.addObject("Hang Gear Center", new HangGearCenter());
-    	autoMode.addObject("Hang Gear Left", new HangGearLeft());
-    	autoMode.addObject("Red-Alliance: Gear+Shoot", new GearNShootRed());
-    	autoMode.addObject("Blue-Alliance: Gear+Shoot", new GearNShootBlue());
+    	autoMode.addObject("Hang Gear", new HangGear(robotPosition.getSelected()));
+    	autoMode.addObject("Gear+Shoot", new GearNShoot(allianceSelector.getSelected()));
     	SmartDashboard.putData("Autonomous Mode Selector", autoMode);
     }
     
