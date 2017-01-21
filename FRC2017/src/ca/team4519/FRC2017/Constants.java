@@ -6,6 +6,8 @@ public class Constants {
 	 * AS OF INITAL COMMIT ALL VALUES ARE 0 AND ONLY ACT AS PLACEHOLDERS
 	 */
 
+	public static final double ROBOT_MAX_VELOCITY= 0.0;
+	
 	//Controlls
 	public static final int gamepad = 0;
 	
