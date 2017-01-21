@@ -99,24 +99,24 @@ public class MechaRobotBase extends RobotBase {
   }
 
   public void robotInit() {
-    System.out.println("Default IterativeRobot.robotInit() method... Overload me!");
+    System.out.println("Default MechaRobotBase.robotInit() method... Overload me!");
   }
 
   public void disabledInit() {
-    System.out.println("Default IterativeRobot.disabledInit() method... Overload me!");
+    System.out.println("Default MechaRobotBase.disabledInit() method... Overload me!");
   }
 
   public void autonomousInit() {
-    System.out.println("Default IterativeRobot.autonomousInit() method... Overload me!");
+    System.out.println("Default MechaRobotBase.autonomousInit() method... Overload me!");
   }
 
   public void teleopInit() {
-    System.out.println("Default IterativeRobot.teleopInit() method... Overload me!");
+    System.out.println("Default MechaRobotBase.teleopInit() method... Overload me!");
   }
 
 
   public void testInit() {
-    System.out.println("Default IterativeRobot.testInit() method... Overload me!");
+    System.out.println("Default MechaRobotBase.testInit() method... Overload me!");
   }
 
 
@@ -124,7 +124,7 @@ public class MechaRobotBase extends RobotBase {
 
   public void robotPeriodic() {
     if (m_rpFirstRun) {
-      System.out.println("Default IterativeRobot.robotPeriodic() method... Overload me!");
+      System.out.println("Default MechaRobotBase.robotPeriodic() method... Overload me!");
       m_rpFirstRun = false;
     }
   }
@@ -134,7 +134,7 @@ public class MechaRobotBase extends RobotBase {
 
   public void disabledPeriodic() {
     if (m_dpFirstRun) {
-      System.out.println("Default IterativeRobot.disabledPeriodic() method... Overload me!");
+      System.out.println("Default MechaRobotBase.disabledPeriodic() method... Overload me!");
       m_dpFirstRun = false;
     }
   }
@@ -144,7 +144,7 @@ public class MechaRobotBase extends RobotBase {
 
   public void autonomousPeriodic() {
     if (m_apFirstRun) {
-      System.out.println("Default IterativeRobot.autonomousPeriodic() method... Overload me!");
+      System.out.println("Default MechaRobotBase.autonomousPeriodic() method... Overload me!");
       m_apFirstRun = false;
     }
   }
@@ -153,7 +153,7 @@ public class MechaRobotBase extends RobotBase {
 
   public void teleopPeriodic() {
     if (m_tpFirstRun) {
-      System.out.println("Default IterativeRobot.teleopPeriodic() method... Overload me!");
+      System.out.println("Default MechaRobotBase.teleopPeriodic() method... Overload me!");
       m_tpFirstRun = false;
     }
   }
@@ -165,7 +165,7 @@ public class MechaRobotBase extends RobotBase {
 
   public void testPeriodic() {
     if (m_tmpFirstRun) {
-      System.out.println("Default IterativeRobot.testPeriodic() method... Overload me!");
+      System.out.println("Default MechaRobotBase.testPeriodic() method... Overload me!");
       m_tmpFirstRun = false;
     }
   }

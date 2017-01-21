@@ -4,12 +4,12 @@ import ca.team4519.FRC2017.auton.modes.*;
 
 import ca.team4519.FRC2017.subsystems.Drivebase;
 import ca.team4519.FRC2017.subsystems.Shooter;
+import ca.team4519.lib.MechaRobotBase;
 import ca.team4519.FRC2017.subsystems.Climber;
 import ca.team4519.FRC2017.subsystems.Controller;
 import ca.team4519.FRC2017.subsystems.GearBox;
 import ca.team4519.FRC2017.subsystems.Hopper;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /*
  * @Author Connor Adams
  */
-public class Robot extends IterativeRobot {
+public class Robot extends MechaRobotBase{
   
 	Command autoToExecute;	
 	SendableChooser<Command> autoMode = new SendableChooser<Command>();
