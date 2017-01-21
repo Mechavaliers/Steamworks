@@ -42,7 +42,7 @@ public class Robot extends MechaRobotBase{
 		
     	autoMode.addDefault("Do Nothing", null);
     	autoMode.addObject("Hang Gear", new HangGear(robotPosition.getSelected()));
-    	autoMode.addObject("Gear+Shoot", new GearNShoot(allianceSelector.getSelected()));
+    	//autoMode.addObject("Shoot", new GearNShoot(allianceSelector.getSelected()));
     	SmartDashboard.putData("Autonomous Mode Selector", autoMode);
     }
     
