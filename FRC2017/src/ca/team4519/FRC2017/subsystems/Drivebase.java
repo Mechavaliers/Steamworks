@@ -40,7 +40,23 @@ public class Drivebase extends Subsystem{
 		gyro.reset();
 		
 	}
+	
+	public double leftVelocity() {
+		return leftDriveEncoder.getRate();
+	}
+	
+	public double rightVelocity() {
+		return rightDriveEncoder.getRate();
+	}
 
+	public double avgVelocity() {
+		return (rightVelocity()+leftVelocity()/2);
+	}
+	
+	public double currHeading() {
+		return gyro.getAngle();
+	}
+		
 	public void arcadeDriveMath(double forwardAxis, double turningAxis) {
  		
 		leftPower =(-(forwardAxis - turningAxis));
@@ -60,7 +76,7 @@ public class Drivebase extends Subsystem{
 		
 	}
 
-	public void driveLine(double dist) {
+	public void driveLine(double dist, double maxVel) {
 		
 	}
 	
@@ -69,8 +85,9 @@ public class Drivebase extends Subsystem{
 	}
 	
 	public void update() {
-		
-		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+		SmartDashboard.putNumber("Left velocity", leftVelocity());
+		SmartDashboard.putNumber("Right Velocity", rightVelocity());
+		SmartDashboard.putNumber("Gyro Angle", currHeading());
 		
 	}
 	
