@@ -1,4 +1,3 @@
-
 package ca.team4519.FRC2017;
 
 import ca.team4519.FRC2017.auton.modes.*;
@@ -16,7 +15,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
+/*
+ * @Author Connor Adams
+ */
 public class Robot extends IterativeRobot {
   
 	Command autoToExecute;	
@@ -24,11 +25,6 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> allianceSelector = new SendableChooser<String>();
 	SendableChooser<String> robotPosition = new SendableChooser<String>();
  	
-	Drivebase driveBase = new Drivebase();
-	Shooter flywheel = new Shooter();
-	Climber muscles = new Climber();
-	GearBox gearDevice = new GearBox();
-	Hopper ballHolder = new Hopper();
 	Controller PS4 = new Controller();
 	
 	
@@ -42,6 +38,7 @@ public class Robot extends IterativeRobot {
 		robotPosition.addObject("Left Field", "Left");
 		robotPosition.addObject("Center Field", "Center");
 		robotPosition.addObject("Right Field", "Right");
+		SmartDashboard.putData("Robot Position Oon Field", robotPosition);
 		
     	autoMode.addDefault("Do Nothing", null);
     	autoMode.addObject("Hang Gear", new HangGear(robotPosition.getSelected()));
@@ -63,27 +60,27 @@ public class Robot extends IterativeRobot {
 
     public void teleopInit(){
     	Scheduler.getInstance().disable();
-    	driveBase.resetSensors();
+    	Drivebase.grabInstance().resetSensors();
     }
     
     public void teleopPeriodic() {
-        driveBase.arcadeDriveMath(PS4.getLeftStick_Y(), PS4.getRightStick_X());
+        Drivebase.grabInstance().arcadeDriveMath(PS4.getLeftStick_Y(), PS4.getRightStick_X());
     }
 
     
     public void disabledInit() {
-    	driveBase.disableSubsystem();
-    	flywheel.disableSubsystem();
-    	muscles.disableSubsystem();
-    	gearDevice.disableSubsystem();
-    	ballHolder.disableSubsystem();
+    	Drivebase.grabInstance().disableSubsystem();
+    	Climber.grabInstance().disableSubsystem();
+    	GearBox.grabInstance().disableSubsystem();
+    	Hopper.grabInstance().disableSubsystem();
+    	Shooter.grabInstance().disableSubsystem();
     }
     
     public void allPeriodic() {
-    	driveBase.update();
-    	flywheel.update();
-    	muscles.update();
-    	gearDevice.update();
-    	ballHolder.update();
+    	Drivebase.grabInstance().update();
+    	Climber.grabInstance().update();
+    	GearBox.grabInstance().update();
+    	Hopper.grabInstance().update();
+    	Shooter.grabInstance().update();
     }
 }

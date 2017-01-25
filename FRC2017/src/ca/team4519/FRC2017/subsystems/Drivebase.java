@@ -60,6 +60,14 @@ public class Drivebase extends Subsystem{
 		
 	}
 
+	public void driveLine(double dist) {
+		
+	}
+	
+	public void spinBot(double currentHeading, double goalHeading) {
+		
+	}
+	
 	public void update() {
 		
 		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
