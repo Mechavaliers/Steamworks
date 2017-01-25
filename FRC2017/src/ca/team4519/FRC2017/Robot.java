@@ -50,6 +50,7 @@ public class Robot extends IterativeRobot {
     }
     
     
+
     public void autonomousInit() {
     	
     	autoToExecute = (Command) autoMode.getSelected();
