@@ -15,7 +15,7 @@ public class Constants {
 	
 	//Shooter-Sensors
 	public static final int leftFlywheelPWM = 0;
-	public static final int rightFlywheelPMW = 0;
+	public static final int rightFlywheelPWM = 0;
 	
 	//Drivebase-Sensors
 	public static final int leftDriveEncoderA = 0;
