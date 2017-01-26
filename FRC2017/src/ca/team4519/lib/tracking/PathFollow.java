@@ -2,9 +2,10 @@ package ca.team4519.lib.tracking;
 
 import java.util.List;
 
+
 public class PathFollow {
 
-	List<Waypoint> waypoints;
+	protected List<Waypoint> waypoints;
 	
 	public static class Waypoint {
 		
@@ -15,9 +16,16 @@ public class PathFollow {
 			this.x = x;
 			this.y = y;
 		}
+		
+		public Waypoint(double x, double y, String name){
+			this.x = x;
+			this.y = y;
+		}
 	}
 	
 	public PathFollow(List<Waypoint> waypoints){
+		
+		this.waypoints = waypoints;
 		
 	}
 	

@@ -1,19 +1,16 @@
 package ca.team4519.lib.pid;
 
 import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.SpeedController;
 
 public class FlywheelController {
 
 	public Counter source;
-	public SpeedController motorController;
-	public double kP, kI, kD, kF, ticksPerRev, deadband, output, target, error, pOut, iOut, dOut, iError, deltaError;
-	public double prevError = 0;
-	public boolean isEnabled = false;
+	protected double kP, kI, kD, kF, ticksPerRev, deadband, output, target, error, pOut, iOut, dOut, iError, deltaError;
+	protected double prevError = 0;
+	protected boolean isEnabled = false;
 	
-	public FlywheelController(Counter source, SpeedController motorController, double kP, double kI, double kD, double kF, double ticksPerRev,double deadband){	
+	public FlywheelController(Counter source, double kP, double kI, double kD, double kF, double ticksPerRev,double deadband){	
 		this.source = source;
-		this.motorController = motorController;
 		this.kP = kP;
 		this.kI = kI;
 		this.kD = kD;
@@ -25,7 +22,7 @@ public class FlywheelController {
 	public void calculate(){
 		
 		
-		error = target - source.getRate();
+		error = target - ((source.getRate()/ticksPerRev)/60) ;
 		
 		iError = error;
 		
@@ -37,19 +34,26 @@ public class FlywheelController {
 		
 	}
 	
+	public boolean inRange(){
+		return Math.abs(error) < deadband;
+	}
+	
 	public void setRPM(final double target){
 		this.target = target;
 	}
 	
 	public void enable(){
 		isEnabled = true;
-		motorController.set(output);
+
 	}
 	
 	public void disable(){
 		isEnabled = false;
 		setRPM(0.0);
-		motorController.set(0.0);
+	}
+	
+	public double controllerOutput(){
+		return output;
 	}
 	
 	public boolean isEnabled(){

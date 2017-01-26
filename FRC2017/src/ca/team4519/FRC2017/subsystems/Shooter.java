@@ -20,7 +20,7 @@ public class Shooter extends Subsystem{
 	public Counter rightFlywheel_sensor = new Counter(Constants.rightFlywheelEncoder);
 	
 	public FlywheelController leftFlywheel_Controller = new FlywheelController(
-			leftFlywheel_sensor, leftFlywheel, 
+			leftFlywheel_sensor,
 			Gains.Flywheel.LeftRPM_P, 
 			Gains.Flywheel.LeftRPM_I, 
 			Gains.Flywheel.LeftRPM_D, 
@@ -29,7 +29,7 @@ public class Shooter extends Subsystem{
 			Gains.Flywheel.RPM_Deadband);
 	
 	public FlywheelController rightFlywheel_Controller = new FlywheelController(
-			rightFlywheel_sensor, rightFlywheel, 
+			rightFlywheel_sensor,
 			Gains.Flywheel.RightRPM_P, 
 			Gains.Flywheel.RightRPM_I, 
 			Gains.Flywheel.RightRPM_D, 
@@ -41,7 +41,20 @@ public class Shooter extends Subsystem{
 		return thisInstance;
 	}
 	
+	public void setRPMTarget(double target){
+		leftFlywheel_Controller.setRPM(target);
+		rightFlywheel_Controller.setRPM(target);
+	}
+	
+	
+	public double getLeftFlywheelVelocity(){
+		return (leftFlywheel_sensor.getRate() / Gains.Flywheel.LeftTicksPerRev) / 60;
+	}
 
+	public double getRightFlywheelVelocity(){
+		return (rightFlywheel_sensor.getRate() / Gains.Flywheel.RightTicksPerRev) / 60;
+	}
+	
 	public void resetSensors() {
 		leftFlywheel_sensor.reset();
 		rightFlywheel_sensor.reset();
@@ -51,7 +64,11 @@ public class Shooter extends Subsystem{
 
 	public void update() {
 		SmartDashboard.putBoolean("Left FlyWheel Controller Status", leftFlywheel_Controller.isEnabled());
+		SmartDashboard.putNumber("Left Flywheel RPM", getLeftFlywheelVelocity());
+		SmartDashboard.putBoolean("Is Left on Target?", leftFlywheel_Controller.inRange());
 		SmartDashboard.putBoolean("Right FlyWheel Controller Staus", rightFlywheel_Controller.isEnabled());
+		SmartDashboard.putNumber("Rgiht Flywheel RPM", getRightFlywheelVelocity());
+		SmartDashboard.putBoolean("Is Right on Target?", rightFlywheel_Controller.inRange());
 	}
 
 
