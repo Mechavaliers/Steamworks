@@ -26,7 +26,8 @@ public class Shooter extends Subsystem{
 			Gains.Flywheel.LeftRPM_D, 
 			Gains.Flywheel.LeftRPM_F, 
 			Gains.Flywheel.LeftTicksPerRev, 
-			Gains.Flywheel.RPM_Deadband);
+			Gains.Flywheel.RPM_Deadband,
+			Gains.Flywheel.Left_Inverted);
 	
 	public FlywheelController rightFlywheel_Controller = new FlywheelController(
 			rightFlywheel_sensor,
@@ -35,7 +36,8 @@ public class Shooter extends Subsystem{
 			Gains.Flywheel.RightRPM_D, 
 			Gains.Flywheel.RightRPM_F, 
 			Gains.Flywheel.RightTicksPerRev, 
-			Gains.Flywheel.RPM_Deadband);
+			Gains.Flywheel.RPM_Deadband,
+			Gains.Flywheel.Right_Inverted);
 	
 	public static Shooter grabInstance() {
 		return thisInstance;
@@ -46,13 +48,25 @@ public class Shooter extends Subsystem{
 		rightFlywheel_Controller.setRPM(target);
 	}
 	
+	public void enableFlywheels() {
+		leftFlywheel.set(leftFlywheel_Controller.controllerOutput());
+		rightFlywheel.set(rightFlywheel_Controller.controllerOutput());
+	}
 	
 	public double getLeftFlywheelVelocity(){
 		return (leftFlywheel_sensor.getRate() / Gains.Flywheel.LeftTicksPerRev) / 60;
 	}
+	
+	public double getLeftFlywheelRevsPerMin(){
+		return 12;
+	}
 
 	public double getRightFlywheelVelocity(){
 		return (rightFlywheel_sensor.getRate() / Gains.Flywheel.RightTicksPerRev) / 60;
+	}
+	
+	public double getRightFlywheelRevsPerMin(){
+		return 12;
 	}
 	
 	public void resetSensors() {

@@ -5,7 +5,9 @@ public class Gains {
 	public static final class Drive {
 		private Drive() {}
 			
-		public static double TicksPerFoot = 0.0;
+		public static double ROBOT_MAX_VELOCITY= 0.0;
+		public static double Wheelbase_Width = 0.0;
+		public static double TicksPerInch = 0.0;
 		
 		public static double LeftDistPID_P = 0.0;
 		public static double LeftDistPID_I = 0.0;
@@ -32,6 +34,9 @@ public class Gains {
 	public static final class Flywheel {
 		private Flywheel() {}
 		
+		public static double RPM_TARGET_KEY = 0.0;
+		public static double RPM_TARGET_AIRSHIP = 0.0;
+		
 		public static double LeftTicksPerRev = 0.0;
 		public static double RightTicksPerRev = 0.0;
 		public static double RPM_Deadband = 0.0;
@@ -40,11 +45,13 @@ public class Gains {
 		public static double LeftRPM_I = 0.0;
 		public static double LeftRPM_D = 0.0;
 		public static double LeftRPM_F = 0.0;
+		public static boolean Left_Inverted = false;
 		
 		public static double RightRPM_P = 0.0;
 		public static double RightRPM_I = 0.0;
 		public static double RightRPM_D = 0.0;
 		public static double RightRPM_F = 0.0;
+		public static boolean Right_Inverted = false;
 		
 		
 	}

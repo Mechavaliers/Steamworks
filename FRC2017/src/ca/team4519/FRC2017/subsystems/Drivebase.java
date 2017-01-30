@@ -2,7 +2,7 @@ package ca.team4519.FRC2017.subsystems;
 
 import ca.team4519.FRC2017.Constants;
 import ca.team4519.lib.Subsystem;
-
+import ca.team4519.lib.tracking.PathFollow;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Encoder;
@@ -50,7 +50,7 @@ public class Drivebase extends Subsystem{
 	}
 
 	public double avgVelocity() {
-		return (rightVelocity()+leftVelocity()/2);
+		return ((rightVelocity()+leftVelocity())/2);
 	}
 	
 	public double currHeading() {
@@ -69,24 +69,22 @@ public class Drivebase extends Subsystem{
 		rightDriveMotor.set(rightOutput);
 	}
 	
+	public void followPath(PathFollow path){
+		path.config();
+	}
+	
 	public void disableSubsystem() {
 		
 		leftPower = 0;
 		rightPower = 0;
 		
 	}
-
-	public void driveLine(double dist, double maxVel) {
-		
-	}
-	
-	public void spinBot(double currentHeading, double goalHeading) {
-		
-	}
 	
 	public void update() {
 		SmartDashboard.putNumber("Left velocity", leftVelocity());
+		SmartDashboard.putNumber("Left Distance", leftDriveEncoder.getDistance());
 		SmartDashboard.putNumber("Right Velocity", rightVelocity());
+		SmartDashboard.putNumber("Right Distance", leftDriveEncoder.getDistance());
 		SmartDashboard.putNumber("Gyro Angle", currHeading());
 		
 	}

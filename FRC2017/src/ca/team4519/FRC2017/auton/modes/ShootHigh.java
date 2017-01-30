@@ -8,8 +8,10 @@ import ca.team4519.FRC2017.subsystems.Shooter;
 
 public class ShootHigh extends Command {
 
+	
+	
     public ShootHigh() {
-        
+    
     }
 
     protected void initialize() {

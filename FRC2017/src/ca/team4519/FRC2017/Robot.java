@@ -22,26 +22,17 @@ public class Robot extends MechaRobotBase{
   
 	Command autoToExecute;	
 	SendableChooser<Command> autoMode = new SendableChooser<Command>();
-	SendableChooser<String> allianceSelector = new SendableChooser<String>();
-	SendableChooser<String> robotPosition = new SendableChooser<String>();
- 	
+	
 	Controller PS4 = new Controller();
 	
 	
 
 	public void robotInit() {
        
-		allianceSelector.addObject("Red Alliance", "Red");
-		allianceSelector.addObject("Blue Alliance", "Blue");
-		SmartDashboard.putData("Alliance Selector", allianceSelector);
-		
-		robotPosition.addObject("Left Field", "Left");
-		robotPosition.addObject("Center Field", "Center");
-		robotPosition.addObject("Right Field", "Right");
-		SmartDashboard.putData("Robot Position Oon Field", robotPosition);
 		
     	autoMode.addDefault("Do Nothing", null);
-    	autoMode.addObject("Hang Gear", new HangGear(robotPosition.getSelected()));
+    	autoMode.addObject("", null);
+    	autoMode.addObject("Hang Gear", null);
     	//autoMode.addObject("Shoot", new GearNShoot(allianceSelector.getSelected()));
     	SmartDashboard.putData("Autonomous Mode Selector", autoMode);
     }
