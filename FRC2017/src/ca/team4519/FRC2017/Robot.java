@@ -4,11 +4,11 @@ import ca.team4519.FRC2017.auton.modes.*;
 
 import ca.team4519.FRC2017.subsystems.Drivebase;
 import ca.team4519.FRC2017.subsystems.Shooter;
-import ca.team4519.lib.MechaRobotBase;
 import ca.team4519.FRC2017.subsystems.Climber;
 import ca.team4519.FRC2017.subsystems.Controller;
 import ca.team4519.FRC2017.subsystems.GearBox;
 import ca.team4519.FRC2017.subsystems.Hopper;
+import ca.team4519.lib.MechaRobotBase;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
