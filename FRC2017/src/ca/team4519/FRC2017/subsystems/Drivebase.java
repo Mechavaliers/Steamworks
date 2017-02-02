@@ -6,13 +6,14 @@ import ca.team4519.lib.Subsystem;
 import ca.team4519.lib.DrivetrainOutput;
 import ca.team4519.lib.RobotPose;
 import ca.team4519.FRC2017.subsystems.controllers.DriveLineController;
+import ca.team4519.lib.Thread;
 
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
-public class Drivebase extends Subsystem{
+public class Drivebase extends Subsystem implements Thread{
 
 	public static Drivebase thisInstance = new Drivebase();
 	
@@ -24,13 +25,15 @@ public class Drivebase extends Subsystem{
 		DrivetrainOutput update(RobotPose pose);
 	}
 	
-	private final VictorSP leftDriveMotor, rightDriveMotor;
-	Encoder leftDriveEncoder, rightDriveEncoder;
+	private final VictorSP leftDriveMotor;
+	private final VictorSP rightDriveMotor;
+	Encoder leftDriveEncoder;
+	Encoder rightDriveEncoder;
 	ADXRS450_Gyro gyro;
 	
 	private Controllers controller = null;
 	
-	double leftPower, rightPower;
+	public double leftPower, rightPower;
 	protected final double inchesPerTick = Gains.Drive.WheelSize_Inches * Math.PI / Gains.Drive.EncoderTicksPerRev;
 	
 	private RobotPose storedPose = new RobotPose(0, 0, 0, 0, 0, 0);
@@ -64,27 +67,17 @@ public class Drivebase extends Subsystem{
 		gyro.reset();
 		
 	}
-	
-	public double leftVelocity() {
-		return leftDriveEncoder.getRate();
-	}
-	
-	public double rightVelocity() {
-		return rightDriveEncoder.getRate();
-	}
-
-	public double avgVelocity() {
-		return ((rightVelocity()+leftVelocity())/2);
-	}
-	
+		
 	public double currHeading() {
 		return gyro.getAngle();
 	}
 		
-	public void arcadeDriveMath(double forwardAxis, double turningAxis) {
+	public DrivetrainOutput arcadeDriveMath(double forwardAxis, double turningAxis) {
  		
 		leftPower =(-(forwardAxis - turningAxis));
-		rightPower =(forwardAxis + turningAxis);		
+		rightPower =(forwardAxis + turningAxis);	
+		
+		return new DrivetrainOutput(leftPower, rightPower);
 	}
 	
 	public void setDrivePower(DrivetrainOutput output) {
@@ -120,10 +113,10 @@ public class Drivebase extends Subsystem{
 	}
 	
 	public void update() {
-		SmartDashboard.putNumber("Left velocity", leftVelocity());
-		SmartDashboard.putNumber("Left Distance", leftDriveEncoder.getDistance());
-		SmartDashboard.putNumber("Right Velocity", rightVelocity());
-		SmartDashboard.putNumber("Right Distance", leftDriveEncoder.getDistance());
+		SmartDashboard.putNumber("Left velocity (Inches/Sec)", leftDriveEncoder.getRate());
+		SmartDashboard.putNumber("Left Distance (Inches)", leftDriveEncoder.getDistance());
+		SmartDashboard.putNumber("Right Velocity (Inches/Sec)", rightDriveEncoder.getRate());
+		SmartDashboard.putNumber("Right Distance (Inches)", leftDriveEncoder.getDistance());
 		SmartDashboard.putNumber("Gyro Angle", currHeading());
 		
 	}

@@ -9,6 +9,7 @@ import ca.team4519.FRC2017.subsystems.Controller;
 import ca.team4519.FRC2017.subsystems.GearBox;
 import ca.team4519.FRC2017.subsystems.Hopper;
 import ca.team4519.lib.MechaRobotBase;
+import ca.team4519.lib.MultiThreader;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -20,6 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends MechaRobotBase{
   
+	MultiThreader controlLoops = new MultiThreader("100Hz", 1.0/100.0);
+	
 	Command autoToExecute;	
 	SendableChooser<Command> autoMode = new SendableChooser<Command>();
 	
@@ -29,17 +32,19 @@ public class Robot extends MechaRobotBase{
 
 	public void robotInit() {
        
+		controlLoops.addThread(controlLoops);
 		
     	autoMode.addDefault("Do Nothing", null);
     	autoMode.addObject("", null);
     	autoMode.addObject("Hang Gear", null);
-    	//autoMode.addObject("Shoot", new GearNShoot(allianceSelector.getSelected()));
     	SmartDashboard.putData("Autonomous Mode Selector", autoMode);
     }
     
     
 
     public void autonomousInit() {
+    	
+    	controlLoops.start();
     	
     	autoToExecute = (Command) autoMode.getSelected();
     	autoToExecute.start();
@@ -52,6 +57,7 @@ public class Robot extends MechaRobotBase{
     public void teleopInit(){
     	Scheduler.getInstance().disable();
     	Drivebase.grabInstance().resetSensors();
+    	controlLoops.start();
     }
     
     public void teleopPeriodic() {
@@ -60,6 +66,7 @@ public class Robot extends MechaRobotBase{
 
     
     public void disabledInit() {
+    	controlLoops.stop();
     	Drivebase.grabInstance().disableSubsystem();
     	Climber.grabInstance().disableSubsystem();
     	GearBox.grabInstance().disableSubsystem();
