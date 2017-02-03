@@ -8,7 +8,9 @@ public class Gains {
 		public static double CONTROL_LOOP_TIME = 0.005;
 		
 		public static double ROBOT_MAX_VELOCITY= 0.0;
+		public static double ROBOT_MAX_ROTATIONAL_VELOCITY = 0.0;
 		public static double ROBOT_MAX_ACCELERATION = 0.0;
+		public static double ROBOT_MAX_ROTATIONAL_ACCELERATION = 0.0;
 		public static double Wheelbase_Width = 0.0;
 		public static double EncoderTicksPerRev = 256.0;
 		public static double WheelSize_Inches = 4.0;
@@ -21,8 +23,14 @@ public class Gains {
 		public static double DistTurn_P = 0.0;
 		public static double DistTurn_I = 0.0;
 		public static double DistTurn_D = 0.0;
+		public static double Dist_Tollerance = 0.0;
 
-		public static double Trajectory_Tollerance = 0.0;
+		public static double Turn_P = 0.0;
+		public static double Turn_I = 0.0;
+		public static double Turn_D = 0.0;
+		public static double Turn_V = 0.0;
+		public static double Turn_A = 0.0;
+		public static double Turn_Tollerance = 0.0;
 		
 	}
 	

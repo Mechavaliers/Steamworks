@@ -26,7 +26,7 @@ public class DriveLineController implements Controllers{
 				Gains.Drive.Dist_D, 
 				Gains.Drive.Dist_V, 
 				Gains.Drive.Dist_A, 
-				Gains.Drive.Trajectory_Tollerance, 
+				Gains.Drive.Dist_Tollerance, 
 				configuration);
 		
 		TrajectorySetpoint startingPosition = new TrajectorySetpoint();
@@ -57,7 +57,7 @@ public class DriveLineController implements Controllers{
 		controller.update(
 				(pose.getLeftDistance() + pose.getRightDistance()) / 2.0,
 				(pose.getLeftVelocity() + pose.getRightVelocity()) / 2.0);
-		double power = 5;
+		double power = controller.get();
 		double turn = turningPIDLoop.calculate(pose.getAngle());
 		return new DrivetrainOutput(power+turn, power-turn);
 	}

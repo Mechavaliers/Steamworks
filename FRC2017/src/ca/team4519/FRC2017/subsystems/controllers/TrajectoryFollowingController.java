@@ -34,6 +34,10 @@ public class TrajectoryFollowingController extends Controller{
 		result = tController.calculate(position, velocity);
 	}
 	
+	public double get(){
+		return result;
+	}
+	
 	@Override
 	public void reset(){
 		result = 0;

@@ -35,8 +35,6 @@ public class Robot extends MechaRobotBase{
 		controlLoops.addThread(controlLoops);
 		
     	autoMode.addDefault("Do Nothing", null);
-    	autoMode.addObject("", null);
-    	autoMode.addObject("Hang Gear", null);
     	SmartDashboard.putData("Autonomous Mode Selector", autoMode);
     }
     

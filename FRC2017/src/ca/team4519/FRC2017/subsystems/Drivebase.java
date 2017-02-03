@@ -6,6 +6,7 @@ import ca.team4519.lib.Subsystem;
 import ca.team4519.lib.DrivetrainOutput;
 import ca.team4519.lib.RobotPose;
 import ca.team4519.FRC2017.subsystems.controllers.DriveLineController;
+import ca.team4519.FRC2017.subsystems.controllers.RotationController;
 import ca.team4519.lib.Thread;
 
 import edu.wpi.first.wpilibj.VictorSP;
@@ -59,6 +60,15 @@ public class Drivebase extends Subsystem implements Thread{
 	
 	public void setDistanceTarget(double distance){
 		setDistanceTarget(distance,Gains.Drive.ROBOT_MAX_VELOCITY);
+	}
+	
+	public void setTurnTarget(double angle, double velocity){
+		double whatVelocity = Math.min(Gains.Drive.ROBOT_MAX_ROTATIONAL_VELOCITY, Math.max(velocity,  0));
+		controller = new RotationController(getRobotPose(), angle, whatVelocity);
+	}
+	
+	public void setTurnTarget(double angle){
+		setTurnTarget(angle, Gains.Drive.ROBOT_MAX_ROTATIONAL_VELOCITY);
 	}
 	
 	public void resetSensors() {
