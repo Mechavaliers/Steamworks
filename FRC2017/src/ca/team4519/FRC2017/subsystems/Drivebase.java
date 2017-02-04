@@ -11,7 +11,7 @@ import ca.team4519.lib.Thread;
 
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class Drivebase extends Subsystem implements Thread{
@@ -28,8 +28,8 @@ public class Drivebase extends Subsystem implements Thread{
 	
 	private final VictorSP leftDriveMotor;
 	private final VictorSP rightDriveMotor;
-	Encoder leftDriveEncoder;
-	Encoder rightDriveEncoder;
+	Counter leftDriveEncoder;
+	Counter rightDriveEncoder;
 	ADXRS450_Gyro gyro;
 	
 	private Controllers controller = null;
@@ -45,8 +45,8 @@ public class Drivebase extends Subsystem implements Thread{
 		
 		gyro = new ADXRS450_Gyro();
 		
-		leftDriveEncoder = new Encoder(Constants.leftDriveEncoderA, Constants.leftDriveEncoderB, false);
-		rightDriveEncoder = new Encoder(Constants.rightDriveEncoderA, Constants.rightDriveEncoderB, false);
+		leftDriveEncoder = new Counter(Constants.leftDriveEncoderA);
+		rightDriveEncoder = new Counter(Constants.rightDriveEncoderA);
 		leftDriveEncoder.setDistancePerPulse(inchesPerTick);
 		rightDriveEncoder.setDistancePerPulse(inchesPerTick);
 		
