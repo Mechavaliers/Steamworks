@@ -116,10 +116,8 @@ public class Drivebase extends Subsystem implements Thread{
 	}
 	
 	public void disableSubsystem() {
-		
 		leftPower = 0;
 		rightPower = 0;
-		
 	}
 	
 	public void update() {

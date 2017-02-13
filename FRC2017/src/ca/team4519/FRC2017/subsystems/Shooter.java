@@ -13,84 +13,65 @@ public class Shooter extends Subsystem{
 
 	public static Shooter thisInstance = new Shooter();
 	
-	public Talon leftFlywheel = new Talon(Constants.leftFlywheelPWM);
-	public Talon rightFlywheel = new Talon(Constants.rightFlywheelPWM);
+	public Talon Flywheel = new Talon(Constants.FlywheelPWM);
+
 	
-	public Counter leftFlywheel_sensor = new Counter(Constants.leftFlywheelEncoder);
-	public Counter rightFlywheel_sensor = new Counter(Constants.rightFlywheelEncoder);
+	public Counter Flywheel_sensor = new Counter(Constants.FlywheelEncoder);
 	
-	public FlywheelController leftFlywheel_Controller = new FlywheelController(
-			leftFlywheel_sensor,
-			Gains.Flywheel.LeftRPM_P, 
-			Gains.Flywheel.LeftRPM_I, 
-			Gains.Flywheel.LeftRPM_D, 
-			Gains.Flywheel.LeftRPM_F, 
-			Gains.Flywheel.LeftTicksPerRev, 
-			Gains.Flywheel.RPM_Deadband,
-			Gains.Flywheel.Left_Inverted);
-	
-	public FlywheelController rightFlywheel_Controller = new FlywheelController(
-			rightFlywheel_sensor,
-			Gains.Flywheel.RightRPM_P, 
-			Gains.Flywheel.RightRPM_I, 
-			Gains.Flywheel.RightRPM_D, 
-			Gains.Flywheel.RightRPM_F, 
-			Gains.Flywheel.RightTicksPerRev, 
-			Gains.Flywheel.RPM_Deadband,
-			Gains.Flywheel.Right_Inverted);
+	public FlywheelController Flywheel_Controller = new FlywheelController(
+			Flywheel_sensor,
+			Gains.Flywheel.RPM_P, 
+			Gains.Flywheel.RPM_I, 
+			Gains.Flywheel.RPM_D, 
+			Gains.Flywheel.RPM_F, 
+			Gains.Flywheel.TicksPerRev, 
+			Gains.Flywheel.RPM_Deadband);
+
 	
 	public static Shooter grabInstance() {
 		return thisInstance;
 	}
 	
+	public void setRPMTarget(){
+		Flywheel_Controller.setRPM(Gains.Flywheel.RPM_TARGET_KEY);
+	}
+	
 	public void setRPMTarget(double target){
-		leftFlywheel_Controller.setRPM(target);
-		rightFlywheel_Controller.setRPM(target);
+		Flywheel_Controller.setRPM(target);
 	}
 	
 	public void enableFlywheels() {
-		leftFlywheel.set(leftFlywheel_Controller.controllerOutput());
-		rightFlywheel.set(rightFlywheel_Controller.controllerOutput());
+		Flywheel.set(Flywheel_Controller.controllerOutput());
+	
 	}
 	
-	public double getLeftFlywheelVelocity(){
-		return (leftFlywheel_sensor.getRate() / Gains.Flywheel.LeftTicksPerRev) / 60;
+	public double getFlywheelVelocity(){
+		return (Flywheel_sensor.getRate() / Gains.Flywheel.TicksPerRev) / 60;
 	}
 	
 	public double getLeftFlywheelRevsPerMin(){
 		return 12;
 	}
 
-	public double getRightFlywheelVelocity(){
-		return (rightFlywheel_sensor.getRate() / Gains.Flywheel.RightTicksPerRev) / 60;
-	}
 	
 	public double getRightFlywheelRevsPerMin(){
 		return 12;
 	}
 	
 	public void resetSensors() {
-		leftFlywheel_sensor.reset();
-		rightFlywheel_sensor.reset();
-		
+		Flywheel_sensor.reset();	
 		
 	}
 
 	public void update() {
-		SmartDashboard.putBoolean("Left FlyWheel Controller Status", leftFlywheel_Controller.isEnabled());
-		SmartDashboard.putNumber("Left Flywheel RPM", getLeftFlywheelVelocity());
-		SmartDashboard.putBoolean("Is Left on Target?", leftFlywheel_Controller.inRange());
-		SmartDashboard.putBoolean("Right FlyWheel Controller Staus", rightFlywheel_Controller.isEnabled());
-		SmartDashboard.putNumber("Rgiht Flywheel RPM", getRightFlywheelVelocity());
-		SmartDashboard.putBoolean("Is Right on Target?", rightFlywheel_Controller.inRange());
+		SmartDashboard.putBoolean("Left FlyWheel Controller Status", Flywheel_Controller.isEnabled());
+		SmartDashboard.putNumber("Left Flywheel RPM", getFlywheelVelocity());
+		SmartDashboard.putBoolean("Is Left on Target?", Flywheel_Controller.inRange());
 	}
 
 
 	public void disableSubsystem() {
-	
-		leftFlywheel_Controller.disable();
-		rightFlywheel_Controller.disable();
-		
+		Flywheel_Controller.disable();
 	}
 
 }

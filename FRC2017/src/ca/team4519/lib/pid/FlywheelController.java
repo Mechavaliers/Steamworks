@@ -7,10 +7,9 @@ public class FlywheelController {
 	public Counter source;
 	protected double kP, kI, kD, kF, ticksPerRev, deadband, output, target, error, pOut, iOut, dOut, iError, deltaError;
 	protected double prevError = 0;
-	protected boolean inverseOutput;
 	protected boolean isEnabled = false;
 	
-	public FlywheelController(Counter source, double kP, double kI, double kD, double kF, double ticksPerRev,double deadband, boolean inverseOutput){	
+	public FlywheelController(Counter source, double kP, double kI, double kD, double kF, double ticksPerRev,double deadband){	
 		this.source = source;
 		this.kP = kP;
 		this.kI = kI;
@@ -18,7 +17,6 @@ public class FlywheelController {
 		this.kF = kF;
 		this.ticksPerRev = ticksPerRev;
 		this.deadband = deadband;
-		this.inverseOutput = inverseOutput;
 	}
 	
 	public void calculate(){
@@ -32,8 +30,6 @@ public class FlywheelController {
 
 			output = error * kP + iError * kI + deltaError * kD;
 			prevError = error;
-			
-			output = output * ((inverseOutput)? -1.0:1.0);
 			
 		}else{
 			output = 0;
