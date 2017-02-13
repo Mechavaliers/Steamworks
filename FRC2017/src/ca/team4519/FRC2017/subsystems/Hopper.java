@@ -15,22 +15,24 @@ public class Hopper extends Subsystem{
 		return thisInstance;
 	}
 
-	Talon agitatorMotor;
-	boolean isEnabled = false;
-
-	public Toggle on;
-	public Toggle off;
+	Talon agitatorMotor = new Talon(Constants.hopperMotor);
 	
-	public Hopper(){
+	Toggle runMotor;
+	
+	boolean isEnabled = false;
+	
+
+	public void hopperControl(boolean button){
+		runMotor = new Toggle(button);
+	
+		agitatorMotor.set(runMotor.getState()? 1.0 : 0.0);
 		
-		agitatorMotor = new Talon(Constants.hopperMotor);
 	}
+	
 	
 	public void resetSensors() {
 		isEnabled = false;		
 	}
-
-	
 	
 	public void update() {
 		SmartDashboard.putBoolean("Hopper Running", isEnabled);
