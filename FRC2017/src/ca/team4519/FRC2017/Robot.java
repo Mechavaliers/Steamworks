@@ -35,6 +35,10 @@ public class Robot extends MechaRobotBase{
 		controlLoops.addThread(controlLoops);
 		
     	autoMode.addDefault("Do Nothing", null);
+    	autoMode.addObject("Lane A Gear", new LaneAGear());
+    	autoMode.addObject("Lane B Gear", null);
+    	autoMode.addObject("Lane C Gear", null);
+    	
     	SmartDashboard.putData("Autonomous Mode Selector", autoMode);
     }
     
