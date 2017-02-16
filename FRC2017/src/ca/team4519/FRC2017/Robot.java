@@ -4,8 +4,9 @@ import ca.team4519.FRC2017.auton.modes.*;
 
 import ca.team4519.FRC2017.subsystems.Drivebase;
 import ca.team4519.FRC2017.subsystems.Shooter;
+import ca.team4519.FRC2017.subsystems.Shooter.Flywheel_State;
 import ca.team4519.FRC2017.subsystems.Climber;
-import ca.team4519.FRC2017.subsystems.Controller;
+import ca.team4519.FRC2017.subsystems.DualShock4;
 import ca.team4519.FRC2017.subsystems.GearBox;
 import ca.team4519.FRC2017.subsystems.Hopper;
 import ca.team4519.lib.MechaRobotBase;
@@ -26,7 +27,7 @@ public class Robot extends MechaRobotBase{
 	Command autoToExecute;	
 	SendableChooser<Command> autoMode = new SendableChooser<Command>();
 	
-	Controller PS4 = new Controller();
+	DualShock4 PS4 = new DualShock4(0);
 	
 	
 
@@ -64,6 +65,7 @@ public class Robot extends MechaRobotBase{
     
     public void teleopPeriodic() {
         Drivebase.grabInstance().arcadeDriveMath(PS4.getLeftStick_Y(), PS4.getRightStick_X());
+        Shooter.grabInstance().Flywheel_State_Machine(Flywheel_State.KEY);
     }
 
     

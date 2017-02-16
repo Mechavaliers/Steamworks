@@ -5,6 +5,7 @@ import ca.team4519.FRC2017.Gains;
 import ca.team4519.lib.Subsystem;
 import ca.team4519.lib.DrivetrainOutput;
 import ca.team4519.lib.RobotPose;
+import ca.team4519.FRC2017.subsystems.controllers.DriveBackwardsController;
 import ca.team4519.FRC2017.subsystems.controllers.DriveLineController;
 import ca.team4519.FRC2017.subsystems.controllers.RotationController;
 import ca.team4519.lib.Thread;
@@ -61,6 +62,16 @@ public class Drivebase extends Subsystem implements Thread{
 	public void setDistanceTarget(double distance){
 		setDistanceTarget(distance,Gains.Drive.ROBOT_MAX_VELOCITY);
 	}
+	
+	public void setReverseDistanceTarget(double distance, double velocity){
+		double whatVelocity = Math.min(Gains.Drive.ROBOT_MAX_VELOCITY, Math.max(velocity, 0));
+		controller = new DriveBackwardsController(getRobotPose(), distance, whatVelocity);
+	}
+	
+	public void setReverseDistanceTarget(double distance){
+		setReverseDistanceTarget(distance, Gains.Drive.ROBOT_MAX_VELOCITY);
+	}
+	
 	
 	public void setTurnTarget(double angle, double velocity){
 		double whatVelocity = Math.min(Gains.Drive.ROBOT_MAX_ROTATIONAL_VELOCITY, Math.max(velocity,  0));

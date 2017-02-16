@@ -38,7 +38,7 @@ public class Gains {
 		private Flywheel() {}
 		
 		public static double RPM_TARGET_KEY = 0.0;
-		public static double RPM_TARGET_AIRSHIP = 0.0;
+		public static double RPM_TARGET_WALL = 0.0;
 		
 		public static double TicksPerRev = 0.0;
 		public static double RPM_Deadband = 0.0;
