@@ -88,7 +88,12 @@ public class Drivebase extends Subsystem implements Thread{
 		gyro.reset();
 		
 	}
-		
+	
+	public void resetEncoders() {
+		leftDriveEncoder.reset();
+		rightDriveEncoder.reset();
+	}
+	
 	public double currHeading() {
 		return gyro.getAngle();
 	}

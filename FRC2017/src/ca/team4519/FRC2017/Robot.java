@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @Author Connor Adams
  */
 public class Robot extends MechaRobotBase{
+	
+	
   
 	MultiThreader controlLoops = new MultiThreader("100Hz", 1.0/100.0);
 	
@@ -33,7 +35,7 @@ public class Robot extends MechaRobotBase{
 
 	public void robotInit() {
        
-		controlLoops.addThread(controlLoops);
+		controlLoops.addThread(Drivebase.grabInstance());
 		
     	autoMode.addDefault("Do Nothing", null);
     	autoMode.addObject("Lane A Gear", new LaneAGear());

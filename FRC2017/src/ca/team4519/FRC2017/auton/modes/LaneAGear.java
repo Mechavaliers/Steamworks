@@ -45,6 +45,7 @@ public class LaneAGear extends CommandGroup {
     		new WaitForTurnCommand(24, true, 3);
     		
     		//hit peg
+    		Drivebase.grabInstance().resetEncoders();
     		Drivebase.grabInstance().setDistanceTarget(10);
     		new WaitForDriveSetpointCommand(10, true, 5);
     		new TimeoutCommand(2);
@@ -64,6 +65,7 @@ public class LaneAGear extends CommandGroup {
     		new WaitForTurnCommand(24, true, 3);
     		
     		//hit the peg
+    		Drivebase.grabInstance().resetEncoders();
     		Drivebase.grabInstance().setDistanceTarget(10);
     		new WaitForDriveSetpointCommand(10, true, 5);
     		new TimeoutCommand(2);
@@ -77,6 +79,7 @@ public class LaneAGear extends CommandGroup {
     		new WaitForTurnCommand(90, true, 2);
     		
     		//Flyy to the hopper
+    		Drivebase.grabInstance().resetEncoders();
     		Drivebase.grabInstance().setReverseDistanceTarget(50);
     		new WaitForDriveSetpointCommand(50, true, 3);
     		
