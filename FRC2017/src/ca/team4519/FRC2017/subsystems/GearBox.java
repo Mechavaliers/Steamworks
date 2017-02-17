@@ -4,7 +4,7 @@ import ca.team4519.lib.Subsystem;
 
 public class GearBox extends Subsystem{
 
-	public static GearBox thisInstance = new GearBox();
+	private static GearBox thisInstance = new GearBox();
 	
 	public static GearBox grabInstance() {
 		return thisInstance;

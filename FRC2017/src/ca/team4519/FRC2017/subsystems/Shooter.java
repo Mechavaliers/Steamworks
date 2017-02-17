@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends Subsystem{
 
-	public static Shooter thisInstance = new Shooter();
+	private static Shooter thisInstance = new Shooter();
 	
 	public Talon Flywheel = new Talon(Constants.FlywheelPWM);
 

@@ -4,7 +4,7 @@ import ca.team4519.lib.Subsystem;
 
 public class Climber extends Subsystem{
 
-	public static Climber thisInstance = new Climber();
+	private static Climber thisInstance = new Climber();
 	
 	public static Climber grabInstance() {
 		return thisInstance;

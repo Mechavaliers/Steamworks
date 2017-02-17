@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class Drivebase extends Subsystem implements Thread{
 
-	public static Drivebase thisInstance = new Drivebase();
+	private static Drivebase thisInstance = new Drivebase();
 	
 	public static Drivebase grabInstance(){
 		return thisInstance;

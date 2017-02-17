@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Hopper extends Subsystem{
 
-	public static Hopper thisInstance = new Hopper();
+	private static Hopper thisInstance = new Hopper();
 	
 	public static Hopper grabInstance() {
 		return thisInstance;
