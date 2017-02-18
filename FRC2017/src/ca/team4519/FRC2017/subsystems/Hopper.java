@@ -2,12 +2,13 @@ package ca.team4519.FRC2017.subsystems;
 
 import ca.team4519.FRC2017.Constants;
 import ca.team4519.lib.Subsystem;
+import ca.team4519.lib.Thread;
 import ca.team4519.lib.Toggle;
 
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Hopper extends Subsystem{
+public class Hopper extends Subsystem implements Thread{
 
 	private static Hopper thisInstance = new Hopper();
 	
@@ -15,7 +16,8 @@ public class Hopper extends Subsystem{
 		return thisInstance;
 	}
 
-	Talon agitatorMotor = new Talon(Constants.hopperMotor);
+	VictorSP agitatorMotor = new VictorSP(Constants.agitatorMotor);
+	VictorSP serializerMotor = new VictorSP(Constants.serializerMotor);
 	
 	Toggle runMotor;
 	
@@ -26,6 +28,7 @@ public class Hopper extends Subsystem{
 		runMotor = new Toggle(button);
 	
 		agitatorMotor.set(runMotor.getState()? 1.0 : 0.0);
+		serializerMotor.set(runMotor.getState()? 1.0: 0.0);
 		
 	}
 	
@@ -40,6 +43,13 @@ public class Hopper extends Subsystem{
 	
 	public void disableSubsystem() {
 		isEnabled = false;
+	}
+
+
+	@Override
+	public void controlLoops() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
