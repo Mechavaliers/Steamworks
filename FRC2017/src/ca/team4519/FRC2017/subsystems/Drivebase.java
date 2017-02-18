@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.AnalogGyro;
 
 public class Drivebase extends Subsystem implements Thread{
 
@@ -35,7 +36,7 @@ public class Drivebase extends Subsystem implements Thread{
 	DigitalInput rightDriveEncoder_Input;
 	Counter leftDriveEncoder;
 	Counter rightDriveEncoder;
-	ADXRS450_Gyro gyro;
+	AnalogGyro gyro;
 	
 	private Controllers controller = null;
 	
@@ -48,7 +49,7 @@ public class Drivebase extends Subsystem implements Thread{
 		leftDriveMotor = new VictorSP(Constants.leftDrivePWM);
 		rightDriveMotor = new VictorSP(Constants.rightDrivePWM);
 		
-		gyro = new ADXRS450_Gyro();
+		gyro = new AnalogGyro(Constants.gyro);
 		
 		leftDriveEncoder_Input = new DigitalInput(Constants.leftDriveEncoderA);
 		rightDriveEncoder_Input = new DigitalInput(Constants.rightDriveEncoderA);

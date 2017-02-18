@@ -26,4 +26,11 @@ public class Constants {
 	//PLACEHOLDER: May not be needed, currently 100% power in current config
 	public static final int FlywheelEncoder = 0;
 	
+	//Gear Box Servos
+	public static final int leftServo = 7;
+	public static final int rightServo = 8;
+	
+	//Gyro
+	public static final int gyro = 0;
+	
 }
