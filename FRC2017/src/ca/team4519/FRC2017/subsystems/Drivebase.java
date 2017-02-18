@@ -13,6 +13,7 @@ import ca.team4519.lib.Thread;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class Drivebase extends Subsystem implements Thread{
@@ -29,6 +30,9 @@ public class Drivebase extends Subsystem implements Thread{
 	
 	private final VictorSP leftDriveMotor;
 	private final VictorSP rightDriveMotor;
+	
+	DigitalInput leftDriveEncoder_Input;
+	DigitalInput rightDriveEncoder_Input;
 	Counter leftDriveEncoder;
 	Counter rightDriveEncoder;
 	ADXRS450_Gyro gyro;
@@ -46,8 +50,10 @@ public class Drivebase extends Subsystem implements Thread{
 		
 		gyro = new ADXRS450_Gyro();
 		
-		leftDriveEncoder = new Counter(Constants.leftDriveEncoderA);
-		rightDriveEncoder = new Counter(Constants.rightDriveEncoderA);
+		leftDriveEncoder_Input = new DigitalInput(Constants.leftDriveEncoderA);
+		rightDriveEncoder_Input = new DigitalInput(Constants.rightDriveEncoderA);
+		leftDriveEncoder = new Counter(leftDriveEncoder_Input);
+		rightDriveEncoder = new Counter(rightDriveEncoder_Input);
 		leftDriveEncoder.setDistancePerPulse(inchesPerTick);
 		rightDriveEncoder.setDistancePerPulse(inchesPerTick);
 		
@@ -100,6 +106,9 @@ public class Drivebase extends Subsystem implements Thread{
 		
 	public DrivetrainOutput arcadeDriveMath(double forwardAxis, double turningAxis) {
  		
+		forwardAxis = (Math.abs(forwardAxis) > 0.1)? forwardAxis : 0.0;
+		turningAxis = (Math.abs(turningAxis) > 0.1)? turningAxis : 0.0;
+		
 		leftPower =(-(forwardAxis - turningAxis));
 		rightPower =(forwardAxis + turningAxis);	
 		
