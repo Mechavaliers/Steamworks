@@ -24,8 +24,9 @@ public class WaitForTurnCommand extends Command {
     }
     
     protected boolean isFinished() {
-    	double robotAngle = Drivebase.grabInstance().getRobotPose().getAngle();
-        return isTimedOut() || positive ?  robotAngle > angle : robotAngle <= angle;
+    	//double robotAngle = Drivebase.grabInstance().getRobotPose().getAngle();
+        //return isTimedOut() || positive ?  robotAngle > angle : robotAngle <= angle;
+    	return false;
     }
 
     protected void end() {

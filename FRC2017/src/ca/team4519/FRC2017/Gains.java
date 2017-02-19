@@ -12,7 +12,7 @@ public class Gains {
 		public static double ROBOT_MAX_ACCELERATION = 0.0;
 		public static double ROBOT_MAX_ROTATIONAL_ACCELERATION = 0.0;
 		public static double Wheelbase_Width = 0.0;
-		public static double EncoderTicksPerRev = 256.0;
+		public static double EncoderTicksPerRev = 360.0;
 		public static double WheelSize_Inches = 4.0;
 		
 		public static double Dist_P = 0.0;

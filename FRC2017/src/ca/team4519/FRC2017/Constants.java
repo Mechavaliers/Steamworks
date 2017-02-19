@@ -24,13 +24,16 @@ public class Constants {
 	
 	//Shooter Sensors
 	//PLACEHOLDER: May not be needed, currently 100% power in current config
-	public static final int FlywheelEncoder = 0;
+	public static final int FlywheelEncoder = 7;
 	
 	//Gear Box Servos
-	public static final int leftServo = 7;
-	public static final int rightServo = 8;
+	public static final int leftServo = 8;
+	public static final int rightServo = 7;
 	
 	//Gyro
-	public static final int gyro = 0;
+	public static final int gyro = 2;
+	
+	public static final int climb1 = 1;
+	public static final int climb2 = 2;
 	
 }

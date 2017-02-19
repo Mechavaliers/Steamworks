@@ -33,7 +33,7 @@ public class LaneAGear extends CommandGroup {
 	
     public LaneAGear() {
     	getAlliance();
-    	
+    	/*
     	if(red){
     		System.out.println("Red Alliance Selected... Auton Beginning");
     		//Drive towards baseline
@@ -86,6 +86,6 @@ public class LaneAGear extends CommandGroup {
     	}else{
     		System.out.println("Failed to select Alliance... Auton Ending");
     	}
-    	
+    	*/
     }
 }

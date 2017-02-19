@@ -10,12 +10,16 @@ import ca.team4519.FRC2017.subsystems.controllers.DriveLineController;
 import ca.team4519.FRC2017.subsystems.controllers.RotationController;
 import ca.team4519.lib.Thread;
 
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.AnalogGyro;
+
+import com.team254.lib.util.MA3AnalogEncoder;
 
 public class Drivebase extends Subsystem implements Thread{
 
@@ -29,38 +33,40 @@ public class Drivebase extends Subsystem implements Thread{
 		DrivetrainOutput update(RobotPose pose);
 	}
 	
-	private final VictorSP leftDriveMotor;
-	private final VictorSP rightDriveMotor;
+	private final Talon leftDriveMotor;
+	private final Talon rightDriveMotor;
 	
-	DigitalInput leftDriveEncoder_Input;
-	DigitalInput rightDriveEncoder_Input;
+	private AnalogInput leftDriveEncoder_Input;
+	private AnalogInput rightDriveEncoder_Input;
+	Encoder left;
+	Encoder right;
+	
 	Counter leftDriveEncoder;
 	Counter rightDriveEncoder;
-	AnalogGyro gyro;
+	private AnalogGyro gyro;
+	MA3AnalogEncoder leftEncoder;
+	MA3AnalogEncoder rightEncoder;
 	
 	private Controllers controller = null;
 	
 	public double leftPower, rightPower;
 	protected final double inchesPerTick = Gains.Drive.WheelSize_Inches * Math.PI / Gains.Drive.EncoderTicksPerRev;
 	
-	private RobotPose storedPose = new RobotPose(0, 0, 0, 0, 0, 0);
+	//private RobotPose storedPose = new RobotPose(0, 0, 0, 0, 0, 0);
 	
 	public Drivebase() {
-		leftDriveMotor = new VictorSP(Constants.leftDrivePWM);
-		rightDriveMotor = new VictorSP(Constants.rightDrivePWM);
+		thisInstance = this;
 		
-		gyro = new AnalogGyro(Constants.gyro);
+		leftDriveMotor = new Talon(Constants.leftDrivePWM);
+		rightDriveMotor = new Talon(Constants.rightDrivePWM);
 		
-		leftDriveEncoder_Input = new DigitalInput(Constants.leftDriveEncoderA);
-		rightDriveEncoder_Input = new DigitalInput(Constants.rightDriveEncoderA);
-		leftDriveEncoder = new Counter(leftDriveEncoder_Input);
-		rightDriveEncoder = new Counter(rightDriveEncoder_Input);
-		leftDriveEncoder.setDistancePerPulse(inchesPerTick);
-		rightDriveEncoder.setDistancePerPulse(inchesPerTick);
+		gyro = new AnalogGyro(0);
 		
-		gyro.calibrate();
+		leftEncoder = new MA3AnalogEncoder(1);
+		rightEncoder =new MA3AnalogEncoder(2);
+
 	}
-	
+	 /*
 	public void setDistanceTarget(double distance, double velocity){
 		double whatVelocity = Math.min(Gains.Drive.ROBOT_MAX_VELOCITY, Math.max(velocity, 0));
 		controller = new DriveLineController(getRobotPose(), distance, whatVelocity);
@@ -88,17 +94,40 @@ public class Drivebase extends Subsystem implements Thread{
 	public void setTurnTarget(double angle){
 		setTurnTarget(angle, Gains.Drive.ROBOT_MAX_ROTATIONAL_VELOCITY);
 	}
-	
+	*/
 	public void resetSensors() {
-		leftDriveEncoder.reset();
-		rightDriveEncoder.reset();
+		leftEncoder.zero();
+		rightEncoder.zero();
 		gyro.reset();
 		
 	}
 	
+	public double leftEncoderDist(){
+		return leftEncoder.getContinuousAngleDegrees() * inchesPerTick;
+	}
+	
+	public double rightEncoderDist(){
+		return rightEncoder.getContinuousAngleDegrees() * inchesPerTick;
+	}
+	
+	public double leftEncoderVel(){
+		double last = 0;
+		double vel = (last-leftEncoderDist())/0.02;
+		last = leftEncoderDist();
+		return vel;
+	}
+	
+	public double rightEncoderVel(){
+		double last = 0;
+		double vel = (last-rightEncoderDist())/0.02;
+		last = rightEncoderDist();
+		return vel;
+		
+	}
+	
 	public void resetEncoders() {
-		leftDriveEncoder.reset();
-		rightDriveEncoder.reset();
+		leftEncoder.zero();
+		rightEncoder.zero();
 	}
 	
 	public double currHeading() {
@@ -110,8 +139,8 @@ public class Drivebase extends Subsystem implements Thread{
 		forwardAxis = (Math.abs(forwardAxis) > 0.1)? forwardAxis : 0.0;
 		turningAxis = (Math.abs(turningAxis) > 0.1)? turningAxis : 0.0;
 		
-		leftPower =(-(forwardAxis - turningAxis));
-		rightPower =(forwardAxis + turningAxis);	
+		leftPower =(forwardAxis + turningAxis);
+		rightPower =(-(forwardAxis - turningAxis));	
 		
 		return new DrivetrainOutput(leftPower, rightPower);
 	}
@@ -126,13 +155,13 @@ public class Drivebase extends Subsystem implements Thread{
 		if(controller == null){
 			return;
 		}
-		setDrivePower(controller.update(getRobotPose()));
+	//	setDrivePower(controller.update(getRobotPose()));
 	}
 	
-	public RobotPose getRobotPose(){
+/*	public RobotPose getRobotPose(){
 		storedPose.reset(
 				leftDriveEncoder.getDistance(),
-				leftDriveEncoder.getDistance(),
+				rightDriveEncoder.getDistance(),
 				leftDriveEncoder.getRate(),
 				rightDriveEncoder.getRate(),
 				gyro.getAngle(),
@@ -140,17 +169,17 @@ public class Drivebase extends Subsystem implements Thread{
 		return storedPose;
 		
 	}
-	
+	*/
 	public void disableSubsystem() {
 		leftPower = 0;
 		rightPower = 0;
 	}
 	
 	public void update() {
-		SmartDashboard.putNumber("Left velocity (Inches/Sec)", leftDriveEncoder.getRate());
-		SmartDashboard.putNumber("Left Distance (Inches)", leftDriveEncoder.getDistance());
-		SmartDashboard.putNumber("Right Velocity (Inches/Sec)", rightDriveEncoder.getRate());
-		SmartDashboard.putNumber("Right Distance (Inches)", leftDriveEncoder.getDistance());
+		SmartDashboard.putNumber("Left Encoder (Inches)", leftEncoderDist());
+		SmartDashboard.putNumber("Rgiht Encoder (Inches)", rightEncoderDist());
+		SmartDashboard.putNumber("Left velocity (Inches/Sec)", leftEncoderVel());
+		SmartDashboard.putNumber("Right Velocity (Inches/Sec)", rightEncoderVel());
 		SmartDashboard.putNumber("Gyro Angle", currHeading());
 		
 	}

@@ -16,19 +16,47 @@ public class Hopper extends Subsystem implements Thread{
 		return thisInstance;
 	}
 
-	VictorSP agitatorMotor = new VictorSP(Constants.agitatorMotor);
-	VictorSP serializerMotor = new VictorSP(Constants.serializerMotor);
-	
 	Toggle runMotor;
 	
 	boolean isEnabled = false;
+	boolean run = false;
+	boolean canSwitch = false;
+	
+	public VictorSP agitatorMotor;
+	public VictorSP serializerMotor;
+	
+	public Hopper(){
+		thisInstance = this;
+		
+		agitatorMotor = new VictorSP(Constants.agitatorMotor);
+		serializerMotor = new VictorSP(Constants.serializerMotor);
+		
+	}
+	
+	
+	
+	
 	
 
 	public void hopperControl(boolean button){
-		runMotor = new Toggle(button);
-	
-		agitatorMotor.set(runMotor.getState()? 1.0 : 0.0);
-		serializerMotor.set(runMotor.getState()? 1.0: 0.0);
+		
+		
+		if(!button){
+			canSwitch = true;
+		}else if(canSwitch){
+			run = run? false:true;
+			canSwitch = false;
+		}
+		
+		if(run){
+			agitatorMotor.set(-0.25);
+			serializerMotor.set(-0.25);
+		}else{
+			agitatorMotor.set(0.0);
+			serializerMotor.set(0.0);
+		}
+		
+		
 		
 	}
 	

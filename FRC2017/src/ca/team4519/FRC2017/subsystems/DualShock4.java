@@ -7,11 +7,9 @@ import edu.wpi.first.wpilibj.Joystick;
 public class DualShock4 extends Subsystem {
 	
 	
-	Joystick DS4;
+	Joystick DS4 = new Joystick(5);
 	
-	public DualShock4(int port){
-		DS4 = new Joystick(port);
-	}
+
 	
 	
 	

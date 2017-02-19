@@ -13,13 +13,23 @@ public class Shooter extends Subsystem{
 
 	private static Shooter thisInstance = new Shooter();
 	
-	public Talon Flywheel = new Talon(Constants.FlywheelPWM);
+	public Talon Flywheel;
 
+	boolean yay = false;
+	boolean go = false;
 	
-	public Counter Flywheel_sensor = new Counter(Constants.FlywheelEncoder);
+	public Counter Flywheel_sensor;
 	
 	public enum Flywheel_State{
 		OFF, KEY, WALL
+	}
+	
+	public Shooter(){
+		thisInstance = this;
+		
+		Flywheel = new Talon(Constants.FlywheelPWM);
+		Flywheel_sensor = new Counter(Constants.FlywheelEncoder);
+		
 	}
 	
 	public FlywheelController Flywheel_Controller = new FlywheelController(
@@ -43,6 +53,18 @@ public class Shooter extends Subsystem{
 	public void enableFlywheel() {
 		Flywheel.set(Flywheel_Controller.controllerOutput());
 	
+	}
+	
+	public void test(boolean test){
+		if(!test){
+			go = true;
+		}else if (go){
+			yay = !yay;
+			go = false;
+		}
+		
+		Flywheel.set(yay? 1.0:0.0);
+		
 	}
 		
 	public void Flywheel_State_Machine(Flywheel_State state){
