@@ -1,6 +1,7 @@
 package ca.team4519.FRC2017.subsystems;
 
 import ca.team4519.lib.Subsystem;
+import ca.team4519.lib.Thread;
 import ca.team4519.FRC2017.Constants;
 import ca.team4519.FRC2017.Gains;
 import ca.team4519.lib.pid.FlywheelController;
@@ -9,7 +10,7 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Shooter extends Subsystem{
+public class Shooter extends Subsystem implements Thread{
 
 	private static Shooter thisInstance = new Shooter();
 	
@@ -69,16 +70,20 @@ public class Shooter extends Subsystem{
 		
 	public void Flywheel_State_Machine(Flywheel_State state){
 		
-		if(state == Flywheel_State.KEY){
-			setRPMTarget(Gains.Flywheel.RPM_TARGET_KEY);
-			enableFlywheel();
-		}else if (state == Flywheel_State.WALL){
-			setRPMTarget(Gains.Flywheel.RPM_TARGET_WALL);
-			enableFlywheel();
-		}else if (state == Flywheel_State.OFF){
-			Flywheel_Controller.disable();
-		}
-		
+		switch(state){
+			case WALL:
+				setRPMTarget(Gains.Flywheel.RPM_TARGET_WALL);
+				enableFlywheel();
+				break;
+			case KEY:
+				setRPMTarget(Gains.Flywheel.RPM_TARGET_KEY);
+				enableFlywheel();
+				break;
+			case OFF:
+			default:
+				Flywheel_Controller.disable();
+				break;
+		}	
 	}
 	
 	
@@ -96,14 +101,20 @@ public class Shooter extends Subsystem{
 	}
 
 	public void update() {
-		SmartDashboard.putBoolean("FlyWheel Controller Status", Flywheel_Controller.isEnabled());
-		SmartDashboard.putNumber("Flywheel RPM", getFlywheelVelocity());
-		SmartDashboard.putBoolean("Flywheel on Target?", Flywheel_Controller.inRange());
+	//	SmartDashboard.putBoolean("FlyWheel Controller Status", Flywheel_Controller.isEnabled());
+	//	SmartDashboard.putNumber("Flywheel RPM", getFlywheelVelocity());
+	//	SmartDashboard.putBoolean("Flywheel on Target?", Flywheel_Controller.inRange());
 	}
 
 
 	public void disableSubsystem() {
 		Flywheel_Controller.disable();
+	}
+
+	@Override
+	public void controlLoops() {
+		
+		
 	}
 
 }
