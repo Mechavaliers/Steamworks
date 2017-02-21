@@ -14,6 +14,8 @@ public class MA3AnalogEncoder {
     protected Rotation2d rotation_ = new Rotation2d();
     protected Rotation2d home_ = new Rotation2d();
     protected int num_rotations_ = 0;
+    protected double lastVal = 0;
+    protected boolean firstRun = true;
 
     private CrashTrackingRunnable read_thread_ = new CrashTrackingRunnable() {
         @Override
@@ -56,5 +58,15 @@ public class MA3AnalogEncoder {
     public synchronized double getContinuousAngleDegrees() {
         return getRawAngle().getDegrees() + num_rotations_ * 360.0 + home_.getDegrees();
     }
-
+    
+    public synchronized double getRate(){
+    	if(!firstRun){
+    		lastVal = 0;
+    		firstRun = true;
+    	}
+    	double number =(getRawAngle().getDegrees() - lastVal)/0.01;
+    	lastVal = getRawAngle().getDegrees();
+    	return number;
+    }
+    
 }

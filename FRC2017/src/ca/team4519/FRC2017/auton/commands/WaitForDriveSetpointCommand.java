@@ -26,10 +26,10 @@ public class WaitForDriveSetpointCommand extends Command {
     }
 
     protected boolean isFinished() {
-    //	RobotPose position = Drivebase.grabInstance().getRobotPose();
-    	//double averagePos = (position.getLeftDistance() + position.getRightDistance()) / 2.0;
-    //    return (isTimedOut())||(forwards ? averagePos >= setpoint : averagePos <= setpoint);
-    	return false;
+    	RobotPose position = Drivebase.grabInstance().getRobotPose();
+    	double averagePos = (position.getLeftDistance() + position.getRightDistance()) / 2.0;
+        return (isTimedOut())||(forwards ? averagePos >= setpoint : averagePos <= setpoint);
+    	
     }
 
     protected void end() {

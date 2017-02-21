@@ -23,9 +23,15 @@ public class Climber extends Subsystem implements Thread{
 		Climb2 = new VictorSP(Constants.climb2);
 	}
 	
-	public void climb(double input){
+	public void climb(boolean canClimb, double input){
+		if(canClimb){
+			input = Math.abs(input);
 		Climb1.set(input > 0.1? -input:0.0);
 		Climb2.set(input > 0.1? input:0.0);
+		}else{
+			Climb1.set(0.0);
+			Climb2.set(0.0);
+		}
 	}
 	
 	

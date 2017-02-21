@@ -64,7 +64,7 @@ public class Shooter extends Subsystem implements Thread{
 			go = false;
 		}
 		
-		Flywheel.set(yay? 1.0:0.0);
+		Flywheel.set(yay? 0.60:0.0);
 		
 	}
 		

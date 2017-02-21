@@ -25,7 +25,7 @@ public class GearBox extends Subsystem implements Thread{
 	boolean t4 = false;
 
 	double leftAngle = 15;
-	double rightAngle = 165;
+	double rightAngle = 163;
 	
 	public GearBox(){
 		thisInstance = this;

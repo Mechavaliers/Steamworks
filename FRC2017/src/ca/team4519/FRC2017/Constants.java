@@ -19,8 +19,8 @@ public class Constants {
 	public static final int serializerMotor = 3;
 	
 	//Drivebase-Sensors
-	public static final int leftDriveEncoderA = 1;
-	public static final int rightDriveEncoderA = 0;
+	public static final int leftDriveEncoderA = 0;
+	public static final int rightDriveEncoderA = 1;
 	
 	//Shooter Sensors
 	//PLACEHOLDER: May not be needed, currently 100% power in current config

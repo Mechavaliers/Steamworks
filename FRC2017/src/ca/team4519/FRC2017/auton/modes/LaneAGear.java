@@ -1,6 +1,7 @@
 package ca.team4519.FRC2017.auton.modes;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import ca.team4519.FRC2017.auton.commands.DriveDistanceCommand;
 import ca.team4519.FRC2017.auton.commands.TimeoutCommand;
 import ca.team4519.FRC2017.auton.commands.WaitForDriveSetpointCommand;
 import ca.team4519.FRC2017.auton.commands.WaitForTurnCommand;
@@ -15,10 +16,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 public class LaneAGear extends CommandGroup {
 
 	DriverStation ds;
-	Alliance alliance = ds.getAlliance();
+	//Alliance alliance = ds.getAlliance();
 	boolean red = false;
 	boolean blue = false;
-	
+	/*
 	public void getAlliance(){
 		switch(alliance){
 		case Blue:
@@ -30,12 +31,16 @@ public class LaneAGear extends CommandGroup {
     	
     	}
 	}
-	
+	*/
     public LaneAGear() {
-    	getAlliance();
+    	
+    	//Drivebase.grabInstance().setDistanceTarget(36);
+    	addSequential(new DriveDistanceCommand(36));
     	/*
-    	if(red){
-    		System.out.println("Red Alliance Selected... Auton Beginning");
+    	 * 
+    	
+    	if(//ds.getAlliance() == Alliance.Red){
+    		//System.out.println("Red Alliance Selected... Auton Beginning");
     		//Drive towards baseline
     		Drivebase.grabInstance().setDistanceTarget(24);
     		new WaitForDriveSetpointCommand(25, true, 5);
@@ -54,7 +59,7 @@ public class LaneAGear extends CommandGroup {
     		Drivebase.grabInstance().setReverseDistanceTarget(10);
     		new WaitForDriveSetpointCommand(10, true, 5);
     		
-    	}else if (blue){
+    	}else if (ds.getAlliance() == Alliance.Red){
     		System.out.println("Blue Alliance Selected... Auton Beginning");
     		//Drive to baseline
     		Drivebase.grabInstance().setDistanceTarget(24);

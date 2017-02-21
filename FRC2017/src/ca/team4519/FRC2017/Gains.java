@@ -5,22 +5,22 @@ public class Gains {
 	public static final class Drive {
 		private Drive() {}
 			
-		public static double CONTROL_LOOP_TIME = 0.005;
+		public static double CONTROL_LOOP_TIME = 0.01;
 		
-		public static double ROBOT_MAX_VELOCITY= 0.0;
+		public static double ROBOT_MAX_VELOCITY= 100;
+		public static double ROBOT_MAX_ACCELERATION = 15.0;
 		public static double ROBOT_MAX_ROTATIONAL_VELOCITY = 0.0;
-		public static double ROBOT_MAX_ACCELERATION = 0.0;
-		public static double ROBOT_MAX_ROTATIONAL_ACCELERATION = 0.0;
-		public static double Wheelbase_Width = 0.0;
+		public static double ROBOT_MAX_ROTATIONAL_ACCELERATION = 10;
+		public static double Wheelbase_Width = 26.0;
 		public static double EncoderTicksPerRev = 360.0;
 		public static double WheelSize_Inches = 4.0;
 		
-		public static double Dist_P = 0.0;
+		public static double Dist_P = 0.1;
 		public static double Dist_I = 0.0;
 		public static double Dist_D = 0.0;
-		public static double Dist_V = 0.0;
-		public static double Dist_A = 0.0;
-		public static double DistTurn_P = 0.0;
+		public static double Dist_V = 0.01;
+		public static double Dist_A = 0.1;
+		public static double DistTurn_P = 0.04;
 		public static double DistTurn_I = 0.0;
 		public static double DistTurn_D = 0.0;
 		public static double Dist_Tollerance = 0.0;

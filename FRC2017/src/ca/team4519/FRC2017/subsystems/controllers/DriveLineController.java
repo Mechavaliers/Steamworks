@@ -1,5 +1,6 @@
 package ca.team4519.FRC2017.subsystems.controllers;
 
+import ca.team4519.FRC2017.subsystems.Drivebase;
 import ca.team4519.FRC2017.subsystems.Drivebase.Controllers;
 import ca.team4519.FRC2017.Gains;
 import ca.team4519.lib.pid.TurningPID;
@@ -59,6 +60,9 @@ public class DriveLineController implements Controllers{
 				(pose.getLeftVelocity() + pose.getRightVelocity()) / 2.0);
 		double power = controller.get();
 		double turn = turningPIDLoop.calculate(pose.getAngle());
+		
+		Drivebase.grabInstance().setDrivePower(Drivebase.grabInstance().arcadeDriveMath(-power,turn));
+		
 		return new DrivetrainOutput(power+turn, power-turn);
 	}
 	

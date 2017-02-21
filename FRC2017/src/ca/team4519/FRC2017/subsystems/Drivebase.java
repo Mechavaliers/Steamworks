@@ -33,6 +33,10 @@ public class Drivebase extends Subsystem implements Thread{
 	private final Talon leftDriveMotor;
 	private final Talon rightDriveMotor;
 	
+	double lastRight;
+	double lastLeft;
+	
+	boolean firstRun = false;
 	
 	private final MA3AnalogEncoder leftEncoder;
 	private final MA3AnalogEncoder rightEncoder;
@@ -56,6 +60,8 @@ public class Drivebase extends Subsystem implements Thread{
 		
 		leftEncoder = new MA3AnalogEncoder(1);
 		rightEncoder =new MA3AnalogEncoder(2);
+		//leftEncoder.firstRun();
+		//rightEncoder.firstRun();
 
 	}
 	 
@@ -99,21 +105,16 @@ public class Drivebase extends Subsystem implements Thread{
 	}
 	
 	public double rightEncoderDist(){
-		return rightEncoder.getContinuousAngleDegrees() * inchesPerTick;
+		return -rightEncoder.getContinuousAngleDegrees() * inchesPerTick;
 	}
 	
 	public double leftEncoderVel(){
-		double last = 0;
-		double vel = (last-leftEncoderDist())/0.02;
-		last = leftEncoderDist();
-		return vel;
+		return leftEncoder.getRate() * inchesPerTick;
 	}
 	
 	public double rightEncoderVel(){
-		double last = 0;
-		double vel = (last-rightEncoderDist())/0.02;
-		last = rightEncoderDist();
-		return vel;
+		
+		return rightEncoder.getRate() * inchesPerTick;
 		
 	}
 	
@@ -131,6 +132,10 @@ public class Drivebase extends Subsystem implements Thread{
 		forwardAxis = (Math.abs(forwardAxis) > 0.1)? forwardAxis : 0.0;
 		turningAxis = (Math.abs(turningAxis) > 0.1)? turningAxis : 0.0;
 		
+		if(Math.abs(turningAxis) > 90){
+				forwardAxis = forwardAxis/2;
+		}
+		
 		leftPower = forwardAxis + turningAxis;
 		rightPower = forwardAxis - turningAxis;	
 		
@@ -147,6 +152,8 @@ public class Drivebase extends Subsystem implements Thread{
 		if(controller == null){
 			return;
 		}
+		//leftDriveMotor.set(controller.update(getRobotPose()).leftOutput);
+		//rightDriveMotor.set(controller.update(getRobotPose()).rightOutput);
 		setDrivePower(controller.update(getRobotPose()));
 	}
 	
@@ -167,12 +174,28 @@ public class Drivebase extends Subsystem implements Thread{
 		rightPower = 0;
 	}
 	
+	public void testTheStuff(){
+		controller = new DriveLineController(getRobotPose(), 120, Gains.Drive.ROBOT_MAX_VELOCITY);
+	}
+	
 	public void update() {
 		SmartDashboard.putNumber("Left Encoder (Inches)", leftEncoderDist());
 		SmartDashboard.putNumber("Rgiht Encoder (Inches)", rightEncoderDist());
 		SmartDashboard.putNumber("Left velocity (Inches/Sec)", leftEncoderVel());
+		SmartDashboard.putNumber("Left Output", leftDriveMotor.get());
+		SmartDashboard.putNumber("Right Output", rightDriveMotor.get());
 		SmartDashboard.putNumber("Right Velocity (Inches/Sec)", rightEncoderVel());
+		SmartDashboard.putString("Pose", "Left Dist: " + storedPose.getLeftDistance()+ " Right Dist: " + storedPose.getRightDistance() + 
+				" Left Vel: "+ storedPose.getLeftVelocity() + " Right Vel: " + storedPose.getRightVelocity()
+				+ " Robot Angle: " + storedPose.getAngle() + " Angle Rate: " +storedPose.getAngularVelocity());
 		SmartDashboard.putNumber("Gyro Angle", currHeading());
+		if(controller == null){
+			SmartDashboard.putNumber("Controller Status: left", 0);
+			SmartDashboard.putNumber("Controller Status: right", 0);	
+		}else{
+		SmartDashboard.putNumber("Controller Status: left", controller.update(getRobotPose()).leftOutput);
+		SmartDashboard.putNumber("Controller Status: right", controller.update(getRobotPose()).rightOutput);
+		}
 		
 	}
 	

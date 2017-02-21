@@ -1,5 +1,6 @@
 package ca.team4519.FRC2017;
 
+import ca.team4519.FRC2017.auton.commands.DriveDistanceCommand;
 import ca.team4519.FRC2017.auton.modes.*;
 
 import ca.team4519.FRC2017.subsystems.Drivebase;
@@ -11,6 +12,7 @@ import ca.team4519.FRC2017.subsystems.GearBox;
 import ca.team4519.FRC2017.subsystems.Hopper;
 import ca.team4519.lib.MechaRobotBase;
 import ca.team4519.lib.MultiThreader;
+import ca.team4519.lib.Threader;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -22,23 +24,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends MechaRobotBase{
 	
-	MultiThreader controlLoops = new MultiThreader("200Hz", 1.0/200.0);
+	MultiThreader controlLoops = new MultiThreader("100Hz", 1.0/100.0);
+	Threader drivebaseLoop = new Threader("100Hz", Drivebase.grabInstance(), 1.0/100.0);
 	
 	Command autoToExecute;	
 	SendableChooser<Command> autoMode = new SendableChooser<Command>();
 	
 	Joystick PS4 = new Joystick(0);
+	Joystick OP = new Joystick(1);
 
 	public void robotInit() {
        
-		controlLoops.addThread(Drivebase.grabInstance());
-		controlLoops.addThread(Shooter.grabInstance());
+		//controlLoops.addThread(Drivebase.grabInstance());
+		/*controlLoops.addThread(Shooter.grabInstance());
 		controlLoops.addThread(Hopper.grabInstance());
 		controlLoops.addThread(GearBox.grabInstance());
 		controlLoops.addThread(Climber.grabInstance());
-		
+		*/
     	autoMode.addDefault("Do Nothing", null);
-    	autoMode.addObject("Lane A Gear", null);
+    	autoMode.addObject("Lane A Gear", new DriveDistanceCommand(36));
     	autoMode.addObject("Lane B Gear", null);
     	autoMode.addObject("Lane C Gear", null);
     	
@@ -56,22 +60,29 @@ public class Robot extends MechaRobotBase{
     }
 
     public void autonomousPeriodic() {
+    	//controlLoops.
     	Scheduler.getInstance().run();
     }
 
     public void teleopInit(){
     	Scheduler.getInstance().disable();
+    	Drivebase.grabInstance().getRobotPose();
     	Drivebase.grabInstance().resetSensors();
     	controlLoops.start();
+    	drivebaseLoop.start();
     
     }
     
     public void teleopPeriodic() {
        Drivebase.grabInstance().setDrivePower(Drivebase.grabInstance().arcadeDriveMath(PS4.getRawAxis(1), PS4.getRawAxis(4)));
-       Hopper.grabInstance().hopperControl(PS4.getRawButton(3));
-       Climber.grabInstance().climb(PS4.getRawAxis(3));
-       Shooter.grabInstance().test(PS4.getRawButton(2));
+       Hopper.grabInstance().hopperControl(OP.getRawButton(1), OP.getRawButton(3));
+       Climber.grabInstance().climb(OP.getRawButton(4), OP.getRawAxis(1));
+       Shooter.grabInstance().test(OP.getRawButton(1));
        GearBox.grabInstance().setDeg(PS4.getRawButton(4), PS4.getRawButton(1));
+    /*   if(PS4.getRawButton(5)){
+    	   Drivebase.grabInstance().testTheStuff();
+    	   Drivebase.grabInstance().controlLoops();
+       }*/
     }
 
     
