@@ -35,7 +35,7 @@ public class Threader {
 	public void start(){
 		if(threadUpdater == null){
 			threadUpdater = new Timer("Thread - " + this.name);
-			threadUpdater.schedule(new UpdaterTask(this), (long) this.period * 1000);
+			threadUpdater.schedule(new UpdaterTask(this), 0L, (long) (this.period * 1000));
 			
 		}
 	}
