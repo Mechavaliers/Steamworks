@@ -35,6 +35,17 @@ public class GearBox extends Subsystem implements Thread{
 		
 	}
 	
+	public void open(){
+		
+		left.setAngle(35);
+		right.setAngle(140);
+	}
+	
+	public void close() {
+		left.setAngle(15);
+		right.setAngle(165);
+	}
+	
 	public void setDeg(boolean closed, boolean open){
 		
 		if(!closed){

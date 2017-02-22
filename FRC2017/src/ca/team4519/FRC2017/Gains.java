@@ -7,30 +7,30 @@ public class Gains {
 			
 		public static double CONTROL_LOOP_TIME = 0.01;
 		
-		public static double ROBOT_MAX_VELOCITY= 100;
-		public static double ROBOT_MAX_ACCELERATION = 15.0;
-		public static double ROBOT_MAX_ROTATIONAL_VELOCITY = 0.0;
-		public static double ROBOT_MAX_ROTATIONAL_ACCELERATION = 10;
+		public static double ROBOT_MAX_VELOCITY= 100.0;
+		public static double ROBOT_MAX_ACCELERATION = 80.0;
+		public static double ROBOT_MAX_ROTATIONAL_VELOCITY = 35.0; //75
+		public static double ROBOT_MAX_ROTATIONAL_ACCELERATION = 35.0; //75
 		public static double Wheelbase_Width = 26.0;
-		public static double EncoderTicksPerRev = 360.0;
+		public static double EncoderDegsPerRev = 360.0;
 		public static double WheelSize_Inches = 4.0;
 		
 		public static double Dist_P = 0.1;
 		public static double Dist_I = 0.0;
 		public static double Dist_D = 0.0;
 		public static double Dist_V = 0.01;
-		public static double Dist_A = 0.1;
-		public static double DistTurn_P = 0.04;
+		public static double Dist_A = 0.0005;
+		public static double DistTurn_P = 0.0;//0.04
 		public static double DistTurn_I = 0.0;
 		public static double DistTurn_D = 0.0;
-		public static double Dist_Tollerance = 0.0;
+		public static double Dist_Tollerance = 0.75;
 
-		public static double Turn_P = 0.0;
-		public static double Turn_I = 0.0;
-		public static double Turn_D = 0.0;
-		public static double Turn_V = 0.0;
-		public static double Turn_A = 0.0;
-		public static double Turn_Tollerance = 0.0;
+		public static double Turn_P = 0.0825; //0.0825
+		public static double Turn_I = 0.0; 
+		public static double Turn_D = 0.023; // 0.015
+		public static double Turn_V = 0.085; //0.05
+		public static double Turn_A = 0.0075; //0.00225
+		public static double Turn_Tollerance = 0.0225; //0.75
 		
 	}
 	

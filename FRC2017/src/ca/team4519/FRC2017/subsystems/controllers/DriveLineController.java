@@ -1,14 +1,14 @@
 package ca.team4519.FRC2017.subsystems.controllers;
 
-import ca.team4519.FRC2017.subsystems.Drivebase;
-import ca.team4519.FRC2017.subsystems.Drivebase.Controllers;
 import ca.team4519.FRC2017.Gains;
 import ca.team4519.lib.pid.TurningPID;
-import com.team254.lib.trajectory.TrajectoryFollower;
-import com.team254.lib.trajectory.TrajectoryFollower.TrajectorySetpoint;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import ca.team4519.lib.DrivetrainOutput;
 import ca.team4519.lib.RobotPose;
+
+import com.team254.lib.trajectory.TrajectoryFollower;
+import com.team254.lib.trajectory.TrajectoryFollower.TrajectorySetpoint;
+import ca.team4519.FRC2017.subsystems.Drivebase.Controllers;
 
 public class DriveLineController implements Controllers{
 
@@ -39,7 +39,7 @@ public class DriveLineController implements Controllers{
 				Gains.Drive.DistTurn_P,
 				Gains.Drive.DistTurn_I,
 				Gains.Drive.DistTurn_D);
-		turningPIDLoop.setTarget(startingPos.getAngle());
+		turningPIDLoop.setSetpoint(startingPos.getAngle());
 		
 	}
 	
@@ -53,17 +53,18 @@ public class DriveLineController implements Controllers{
 	}
 
 
-	@Override
+	
 	public DrivetrainOutput update(RobotPose pose) {
 		controller.update(
 				(pose.getLeftDistance() + pose.getRightDistance()) / 2.0,
 				(pose.getLeftVelocity() + pose.getRightVelocity()) / 2.0);
-		double power = controller.get();
-		double turn = turningPIDLoop.calculate(pose.getAngle());
+		double power = -controller.get();
+		double turn = -turningPIDLoop.calculate(pose.getAngle());
 		
-		Drivebase.grabInstance().setDrivePower(Drivebase.grabInstance().arcadeDriveMath(-power,turn));
-		
-		return new DrivetrainOutput(power+turn, power-turn);
+		//Drivebase.grabInstance().setDrivePower(Drivebase.grabInstance().arcadeDriveMath(-power,turn));
+		SmartDashboard.putNumber("Controller Power Value", power);
+		SmartDashboard.putNumber("Controller Turn Value", turn);
+		return new DrivetrainOutput(power-turn, power+turn);
 	}
 	
 }

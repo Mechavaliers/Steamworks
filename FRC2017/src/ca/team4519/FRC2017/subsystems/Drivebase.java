@@ -2,10 +2,10 @@ package ca.team4519.FRC2017.subsystems;
 
 import ca.team4519.FRC2017.Constants;
 import ca.team4519.FRC2017.Gains;
-import ca.team4519.FRC2017.subsystems.controllers.DriveBackwardsController;
 import ca.team4519.FRC2017.subsystems.controllers.DriveLineController;
 import ca.team4519.FRC2017.subsystems.controllers.RotationController;
 import ca.team4519.lib.Thread;
+import ca.team4519.lib.pid.TurningPID;
 import ca.team4519.lib.Subsystem;
 import ca.team4519.lib.DrivetrainOutput;
 import ca.team4519.lib.RobotPose;
@@ -33,8 +33,13 @@ public class Drivebase extends Subsystem implements Thread{
 	private final Talon leftDriveMotor;
 	private final Talon rightDriveMotor;
 	
+	TurningPID turn = new TurningPID(Gains.Drive.DistTurn_P, Gains.Drive.DistTurn_I, Gains.Drive.DistTurn_D);
+	
 	double lastRight;
 	double lastLeft;
+	
+	boolean lowMode = false;
+	boolean stayLow = false;
 	
 	boolean firstRun = false;
 	
@@ -46,7 +51,7 @@ public class Drivebase extends Subsystem implements Thread{
 	private Controllers controller = null;
 	
 	public double leftPower, rightPower;
-	protected final double inchesPerTick = Gains.Drive.WheelSize_Inches * Math.PI / Gains.Drive.EncoderTicksPerRev;
+	protected final double inchesPerTick = Gains.Drive.WheelSize_Inches * Math.PI / Gains.Drive.EncoderDegsPerRev;
 	
 	private RobotPose storedPose = new RobotPose(0, 0, 0, 0, 0, 0);
 	
@@ -73,16 +78,6 @@ public class Drivebase extends Subsystem implements Thread{
 	public void setDistanceTarget(double distance){
 		setDistanceTarget(distance,Gains.Drive.ROBOT_MAX_VELOCITY);
 	}
-	
-	public void setReverseDistanceTarget(double distance, double velocity){
-		double whatVelocity = Math.min(Gains.Drive.ROBOT_MAX_VELOCITY, Math.max(velocity, 0));
-		controller = new DriveBackwardsController(getRobotPose(), distance, whatVelocity);
-	}
-	
-	public void setReverseDistanceTarget(double distance){
-		setReverseDistanceTarget(distance, Gains.Drive.ROBOT_MAX_VELOCITY);
-	}
-	
 	
 	public void setTurnTarget(double angle, double velocity){
 		double whatVelocity = Math.min(Gains.Drive.ROBOT_MAX_ROTATIONAL_VELOCITY, Math.max(velocity,  0));
@@ -118,6 +113,13 @@ public class Drivebase extends Subsystem implements Thread{
 		
 	}
 	
+	public void testTurn(){
+		
+		
+		turn.setSetpoint(0);
+		SmartDashboard.putNumber("Turn Stuff", turn.calculate(currHeading()));
+	}
+	
 	public void resetEncoders() {
 		leftEncoder.zero();
 		rightEncoder.zero();
@@ -127,8 +129,19 @@ public class Drivebase extends Subsystem implements Thread{
 		return gyro.getAngle();
 	}
 		
-	public DrivetrainOutput arcadeDriveMath(double forwardAxis, double turningAxis) {
+	public DrivetrainOutput arcadeDriveMath(double forwardAxis, double turningAxis, boolean switchDPI) {
  		
+		if(!switchDPI){
+			lowMode = true;
+		}else if (lowMode){
+			stayLow = !stayLow;
+			lowMode = false;
+		}
+		
+		if(stayLow){
+			
+		}
+		
 		forwardAxis = (Math.abs(forwardAxis) > 0.1)? forwardAxis : 0.0;
 		turningAxis = (Math.abs(turningAxis) > 0.1)? turningAxis : 0.0;
 		
@@ -136,16 +149,22 @@ public class Drivebase extends Subsystem implements Thread{
 				forwardAxis = forwardAxis/2;
 		}
 		
-		leftPower = forwardAxis + turningAxis;
-		rightPower = forwardAxis - turningAxis;	
+		if(stayLow){
+			leftPower = (forwardAxis + turningAxis)/2;
+			rightPower = (forwardAxis - turningAxis)/2;
+			
+		}else{
+			leftPower = forwardAxis + turningAxis;
+			rightPower = forwardAxis - turningAxis;	
+		}
 		
-		return new DrivetrainOutput(leftPower, -rightPower);
+		return new DrivetrainOutput(leftPower, rightPower);
 	}
 	
 	public void setDrivePower(DrivetrainOutput output) {
 		
 		leftDriveMotor.set(output.leftOutput);
-		rightDriveMotor.set(output.rightOutput);
+		rightDriveMotor.set(-output.rightOutput);
 	}
 	
 	public void controlLoops(){

@@ -15,7 +15,7 @@ public class RotationController implements Drivebase.Controllers{
 		TrajectoryFollower.TrajectoryConfig configuration = new TrajectoryFollower.TrajectoryConfig();
 		configuration.dt = Gains.Drive.CONTROL_LOOP_TIME;
 		configuration.max_acc = Gains.Drive.ROBOT_MAX_ROTATIONAL_ACCELERATION;
-		configuration.max_vel = 0;
+		configuration.max_vel = Gains.Drive.ROBOT_MAX_ROTATIONAL_VELOCITY;
 		controller = new TrajectoryFollowingController(
 				Gains.Drive.Turn_P,
 				Gains.Drive.Turn_I,
@@ -35,7 +35,7 @@ public class RotationController implements Drivebase.Controllers{
 	public DrivetrainOutput update(RobotPose pose) {
 		controller.update(pose.getAngle(), pose.getAngularVelocity());
 		double turn = controller.get();
-		return new DrivetrainOutput(turn, -turn);
+		return new DrivetrainOutput(-turn, turn);
 	}
 
 }
