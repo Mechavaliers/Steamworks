@@ -26,4 +26,5 @@ public abstract class AutoMode extends BaseAutoMode {
 	public void waitForTurn(double angle, boolean direction, double seconds) throws AutonException {
 		runTask(new WaitForTurnTask(angle, direction, seconds));
 	}
+	
 }

@@ -5,18 +5,15 @@ import ca.team4519.FRC2017.Gains;
 import ca.team4519.FRC2017.subsystems.controllers.DriveLineController;
 import ca.team4519.FRC2017.subsystems.controllers.RotationController;
 import ca.team4519.lib.Thread;
-import ca.team4519.lib.pid.TurningPID;
 import ca.team4519.lib.Subsystem;
 import ca.team4519.lib.DrivetrainOutput;
 import ca.team4519.lib.RobotPose;
-
-import com.team254.lib.util.MA3AnalogEncoder;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.AnalogGyro;
 
-
+import com.team254.lib.util.MA3AnalogEncoder;
 
 public class Drivebase extends Subsystem implements Thread{
 
@@ -33,16 +30,7 @@ public class Drivebase extends Subsystem implements Thread{
 	private final Talon leftDriveMotor;
 	private final Talon rightDriveMotor;
 	
-	TurningPID turn = new TurningPID(Gains.Drive.DistTurn_P, Gains.Drive.DistTurn_I, Gains.Drive.DistTurn_D);
-	
-	double lastRight;
-	double lastLeft;
-	
-	boolean lowMode = false;
-	boolean stayLow = false;
-	
-	boolean firstRun = false;
-	
+	boolean lowMode = false, stayLow = false;
 	private final MA3AnalogEncoder leftEncoder;
 	private final MA3AnalogEncoder rightEncoder;
 	
@@ -65,8 +53,6 @@ public class Drivebase extends Subsystem implements Thread{
 		
 		leftEncoder = new MA3AnalogEncoder(1);
 		rightEncoder =new MA3AnalogEncoder(2);
-		//leftEncoder.firstRun();
-		//rightEncoder.firstRun();
 
 	}
 	 
@@ -108,16 +94,7 @@ public class Drivebase extends Subsystem implements Thread{
 	}
 	
 	public double rightEncoderVel(){
-		
 		return rightEncoder.getRate() * inchesPerTick;
-		
-	}
-	
-	public void testTurn(){
-		
-		
-		turn.setSetpoint(0);
-		SmartDashboard.putNumber("Turn Stuff", turn.calculate(currHeading()));
 	}
 	
 	public void resetEncoders() {
@@ -136,10 +113,6 @@ public class Drivebase extends Subsystem implements Thread{
 		}else if (lowMode){
 			stayLow = !stayLow;
 			lowMode = false;
-		}
-		
-		if(stayLow){
-			
 		}
 		
 		forwardAxis = (Math.abs(forwardAxis) > 0.1)? forwardAxis : 0.0;
@@ -171,8 +144,6 @@ public class Drivebase extends Subsystem implements Thread{
 		if(controller == null){
 			return;
 		}
-		//leftDriveMotor.set(controller.update(getRobotPose()).leftOutput);
-		//rightDriveMotor.set(controller.update(getRobotPose()).rightOutput);
 		setDrivePower(controller.update(getRobotPose()));
 	}
 	
@@ -204,10 +175,6 @@ public class Drivebase extends Subsystem implements Thread{
 		SmartDashboard.putNumber("Left Output", leftDriveMotor.get());
 		SmartDashboard.putNumber("Right Output", rightDriveMotor.get());
 		SmartDashboard.putNumber("Right Velocity (Inches/Sec)", rightEncoderVel());
-		SmartDashboard.putString("Pose", "Left Dist: " + storedPose.getLeftDistance()+ " Right Dist: " + storedPose.getRightDistance() + 
-				" Left Vel: "+ storedPose.getLeftVelocity() + " Right Vel: " + storedPose.getRightVelocity()
-				+ " Robot Angle: " + storedPose.getAngle() + " Angle Rate: " +storedPose.getAngularVelocity());
-		SmartDashboard.putNumber("Gyro Angle", currHeading());
 		if(controller == null){
 			SmartDashboard.putNumber("Controller Status: left", 0);
 			SmartDashboard.putNumber("Controller Status: right", 0);	

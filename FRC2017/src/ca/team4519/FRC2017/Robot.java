@@ -2,48 +2,51 @@ package ca.team4519.FRC2017;
 
 import ca.team4519.FRC2017.auton.AutoMode;
 import ca.team4519.FRC2017.auton.AutonRunner;
-import ca.team4519.FRC2017.auton.commands.DriveDistanceCommand;
 import ca.team4519.FRC2017.auton.modes.*;
-
 import ca.team4519.FRC2017.subsystems.Drivebase;
 import ca.team4519.FRC2017.subsystems.Shooter;
-import ca.team4519.FRC2017.subsystems.Shooter.Flywheel_State;
 import ca.team4519.FRC2017.subsystems.Climber;
-import ca.team4519.FRC2017.subsystems.DualShock4;
 import ca.team4519.FRC2017.subsystems.GearBox;
 import ca.team4519.FRC2017.subsystems.Hopper;
 import ca.team4519.lib.MechaRobotBase;
 import ca.team4519.lib.MultiThreader;
-import ca.team4519.lib.Threader;
+
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/*
- * @Author Connor Adams
- */
 public class Robot extends MechaRobotBase{
 	
 	MultiThreader controlLoops = new MultiThreader("100Hz", 1.0/100.0);
-	//Threader drivebaseLoop = new Threader("100Hz", Drivebase.grabInstance(), 1.0/100.0);
 	
 	AutonRunner autonLoopRunner = new AutonRunner();
 	
-	Command autoToExecute;	
-	AutoMode mode;
-	SendableChooser<Command> autoMode = new SendableChooser<Command>();
 	SendableChooser<AutoMode> auton = new SendableChooser<AutoMode>();
 	Joystick PS4 = new Joystick(0);
 	Joystick OP = new Joystick(1);
-	boolean runOnce = true;
 
 	public void robotInit() {
        
 		controlLoops.addThread(Drivebase.grabInstance());
+		
+		auton.addObject("Red: Lane 1 Gear", null);
+		auton.addObject("Red: Lane 1 Gear + Hopper", null);
+		auton.addObject("Red: Lane 1 Gear + Boiler", null);
+		auton.addObject("Red: Lane 1 Hopper + Boiler", null);
+		auton.addObject("Red: Lane 2 Gear -> Left", null);
+		auton.addObject("Red: Lane 2 Gear -> Right", null);
+		auton.addObject("Red: Lane 3 Gear", null);
+		
+		auton.addObject("Blue: Lane 1 Gear", null);
+		auton.addObject("Blue: Lane 2 Gear -> Left", null);
+		auton.addObject("Blue: Lane 2 Gear -> Right", null);
+		auton.addObject("Blue: Lane 3 Gear", null);
+		auton.addObject("Blue: Lane 3 Gear + Hopper", null);
+		auton.addObject("Blue: Lane 3 Gear + Boiler", null);
+		auton.addObject("Blue: Lane 3 Hopper + Boiler", null);
 
-		auton.addDefault("Lane B Aids", new LaneBGear());
+		auton.addDefault("Lane B Gear", new LaneBGear());
 		auton.addObject("Lane B Go Right", new LaneBGoRight());
 		auton.addObject("Lane B Gear: Left", new LaneBGearGoLeft());
 		auton.addObject("Lane B Gear: Right", new LaneBGearGoRight());

@@ -9,8 +9,8 @@ public class Gains {
 		
 		public static double ROBOT_MAX_VELOCITY= 100.0;
 		public static double ROBOT_MAX_ACCELERATION = 80.0;
-		public static double ROBOT_MAX_ROTATIONAL_VELOCITY = 35.0; //75
-		public static double ROBOT_MAX_ROTATIONAL_ACCELERATION = 35.0; //75
+		public static double ROBOT_MAX_ROTATIONAL_VELOCITY = 250.0; //75 for some reason 35 is here but im trying 25
+		public static double ROBOT_MAX_ROTATIONAL_ACCELERATION = 250.0; //these are the same, read above. We turn faster then 35 or 75 degs/s
 		public static double Wheelbase_Width = 26.0;
 		public static double EncoderDegsPerRev = 360.0;
 		public static double WheelSize_Inches = 4.0;

@@ -11,11 +11,11 @@ public class RotationController implements Drivebase.Controllers{
 	
 	private final TrajectoryFollowingController controller;
 	
-	public RotationController(RobotPose startingPos, double angleGoal, double velocity){
+	public RotationController(RobotPose startingPos, double angleGoal, double maxVel){
 		TrajectoryFollower.TrajectoryConfig configuration = new TrajectoryFollower.TrajectoryConfig();
 		configuration.dt = Gains.Drive.CONTROL_LOOP_TIME;
 		configuration.max_acc = Gains.Drive.ROBOT_MAX_ROTATIONAL_ACCELERATION;
-		configuration.max_vel = Gains.Drive.ROBOT_MAX_ROTATIONAL_VELOCITY;
+		configuration.max_vel = maxVel;
 		controller = new TrajectoryFollowingController(
 				Gains.Drive.Turn_P,
 				Gains.Drive.Turn_I,
