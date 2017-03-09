@@ -61,9 +61,6 @@ public class DriveLineController implements Controllers{
 		double power = -controller.get();
 		double turn = -turningPIDLoop.calculate(pose.getAngle());
 		
-		//Drivebase.grabInstance().setDrivePower(Drivebase.grabInstance().arcadeDriveMath(-power,turn));
-		SmartDashboard.putNumber("Controller Power Value", power);
-		SmartDashboard.putNumber("Controller Turn Value", turn);
 		return new DrivetrainOutput(power-turn, power+turn);
 	}
 	
