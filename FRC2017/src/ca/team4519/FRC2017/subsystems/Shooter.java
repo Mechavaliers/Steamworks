@@ -18,7 +18,8 @@ public class Shooter extends Subsystem implements Thread{
 
 	
 	public enum Flywheel_State{
-		OFF, ON, 
+		OFF, 
+		ON, 
 	}
 	
 	public Flywheel_State flywheelState = Flywheel_State.OFF;
@@ -49,6 +50,10 @@ public class Shooter extends Subsystem implements Thread{
 	}
 
 		
+	public void setState(Flywheel_State state){
+		flywheelState = state;
+	}
+	
 	public void Flywheel_State_Machine(){
 		
 		switch(flywheelState){
