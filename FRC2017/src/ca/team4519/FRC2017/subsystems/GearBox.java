@@ -1,106 +1,110 @@
 package ca.team4519.FRC2017.subsystems;
 
 import ca.team4519.FRC2017.Constants;
+import ca.team4519.FRC2017.Gains;
 import ca.team4519.lib.Subsystem;
 import ca.team4519.lib.Thread;
 
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GearBox extends Subsystem implements Thread{
 
-	private static GearBox thisInstance = new GearBox();
+	protected static GearBox thisInstance = new GearBox();
 	
 	public static GearBox grabInstance() {
 		return thisInstance;
 	}
 	
-	Servo left;
-	Servo right;
-
-	boolean t1 = false;
-	boolean t2 = false;
-	boolean t3 = false;
-	boolean t4 = false;
-
-	double leftAngle = 15;
-	double rightAngle = 163;
+	public enum Gearage_State {
+		OPEN,
+		CLOSED,
+		EJECT
+	}
+	
+	public Gearage_State currentState;
+	
+	protected Servo left;
+	protected Servo right;
+	protected Servo ejector;
+	protected boolean t1 = false;
+	protected boolean t2 = false;
+	
+	protected boolean wantEject = false;
+	protected boolean wantClosed = true;
 	
 	public GearBox(){
 		thisInstance = this;
 		
+		currentState = Gearage_State.CLOSED;
+		
 		left = new Servo(Constants.leftServo);
 		right = new Servo(Constants.rightServo);
+		ejector = new Servo(Constants.ejectorServo);
 		
 	}
-	
-	public void open(){
-		
-		left.setAngle(35);
-		right.setAngle(140);
-	}
-	
-	public void close() {
-		left.setAngle(15);
-		right.setAngle(165);
-	}
-	
-	public void setDeg(boolean closed, boolean open){
+
+	public void setState(boolean closed, boolean open){
 		
 		if(!closed){
 			t1 = true;
 		}else if(t1){
-			leftAngle = 15;
-			rightAngle = 165;
+			wantClosed = !wantClosed;
+			currentState = Gearage_State.CLOSED; 
 			t1 = false;
 		}
 		
 		if(!open){
 			t2 = true;
 		}else if(t2){
-			leftAngle =35;
-			rightAngle = 140;
+			wantEject = !wantEject;
+			currentState = Gearage_State.EJECT; 
 			t2 = false;
 		}
-	
-		
-		//closed
-		//left 15
-		//right 165
-		//open
-		//left 35
-		//right 140
-		left.setAngle(leftAngle);
-		right.setAngle(rightAngle);
-		
-		
-		}
-	
+
+	}
+
+	public void changeState(Gearage_State state){
+		currentState = state;
+	}
 	
 	@Override
-	public void resetSensors() {
-		// TODO Auto-generated method stub
-		
+	public void resetSensors() {	
 	}
 
 	@Override
 	public void update() {
-		SmartDashboard.putNumber("Left Servo", left.getAngle());
-		SmartDashboard.putNumber("Right Number", right.getAngle());
-		
 	}
 
 	@Override
-	public void disableSubsystem() {
-		// TODO Auto-generated method stub
-		
+	public void disableSubsystem() {	
+		currentState = Gearage_State.CLOSED;
 	}
 
 	@Override
-	public void controlLoops() {
-		// TODO Auto-generated method stub
-		
+	public void controlLoops() {	
+		switch(currentState){
+		case OPEN:
+			left.setAngle(Gains.GearBox.Left_Open);
+			right.setAngle(Gains.GearBox.Right_Open);
+			break;
+		case EJECT:
+			System.out.println("Eject");
+			left.setAngle(Gains.GearBox.Left_Open);
+			right.setAngle(Gains.GearBox.Right_Open);
+			ejector.setAngle(Gains.GearBox.Ejector_Open);
+			break;
+		case CLOSED:
+			System.out.println("Closed");
+			ejector.setAngle(Gains.GearBox.Ejector_Closed);
+			left.setAngle(Gains.GearBox.Left_Closed);
+			right.setAngle(Gains.GearBox.Right_Closed);
+			break;
+		default:
+			ejector.setAngle(Gains.GearBox.Ejector_Closed);
+			left.setAngle(Gains.GearBox.Left_Closed);
+			right.setAngle(Gains.GearBox.Right_Closed);
+			break;
+		}	
 	}
-
 }
+
