@@ -9,11 +9,11 @@ public class LaneBGearGoLeft extends AutoMode {
 	protected void sequence() throws AutonException {
 		drive.setDistanceTarget(40, 50);
 		waitForDriveDistance(40, true, 2);
-		gear.open();
+		//gear.open();
 		wait(0.5);
 		drive.setDistanceTarget(20);
 		waitForDriveDistance(20, false, 1);
-		gear.close();
+		//gear.close();
 		drive.setTurnTarget(45);
 		waitForTurn(45, true, 5);
 		drive.setDistanceTarget(60, 50);

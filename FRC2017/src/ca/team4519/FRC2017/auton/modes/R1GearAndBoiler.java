@@ -1,5 +1,20 @@
 package ca.team4519.FRC2017.auton.modes;
 
-public class R1GearAndBoiler {
+import ca.team4519.FRC2017.auton.AutoMode;
+import ca.team4519.FRC2017.auton.AutonException;
+
+public class R1GearAndBoiler extends AutoMode{
+
+	@Override
+	protected void sequence() throws AutonException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

@@ -30,8 +30,7 @@ public class LaneBGear extends AutoMode {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }

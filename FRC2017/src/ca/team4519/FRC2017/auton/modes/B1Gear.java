@@ -7,7 +7,9 @@ public class B1Gear extends AutoMode{
 
 	@Override
 	protected void sequence() throws AutonException {
-		// TODO Auto-generated method stub
+		drive.setDistanceTarget(10);
+		waitForDriveDistance(10, true, 3);
+		drive.setTurnTarget(45);
 		
 	}
 
