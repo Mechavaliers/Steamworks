@@ -18,20 +18,34 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends MechaRobotBase{
 	
-	MultiThreader autonLoop = new MultiThreader("100Hz", 1.0/100.0);
-	MultiThreader fastLoop = new MultiThreader("200Hz" , 1.0/200.0);
+	MultiThreader autonLoop = new MultiThreader("100Hz - Auton", 1.0/100.0);
+	MultiThreader teleopLoop = new MultiThreader("100Hz - Teleop" , 1.0/100.0);
 	
 	AutonRunner autonLoopRunner = new AutonRunner();
 	
 	SendableChooser<AutoMode> auton = new SendableChooser<AutoMode>();
 	
-	Joystick PS4 = new Joystick(0);
-	Joystick OP = new Joystick(1);
+	Joystick Ben = new Joystick(0);
+	Joystick Paul = new Joystick(1);
 
 	public void robotInit() {
        
 		autonLoop.addThread(Drivebase.grabInstance());
-		fastLoop.addThread(Shooter.grabInstance());
+		autonLoop.addThread(Shooter.grabInstance());
+		teleopLoop.addThread(Shooter.grabInstance());
+		teleopLoop.addThread(GearBox.grabInstance());
+		
+		auton.addObject("Left Gear", null);
+		auton.addObject("Center Gear", null);
+		auton.addObject("Right Gear", null);
+		
+		auton.addObject("Red Gear + Hopper", null);
+		auton.addObject("Red Gear + Boiler", null);
+		auton.addObject("Red Hopper + Boiler", null);
+		
+		auton.addObject("Blue Gear + Hopper", null);
+		auton.addObject("Blue Gear + Boiler", null);
+		auton.addObject("Blue Hopper + Boiler", null);
 		
 		auton.addObject("Red: Lane 1 Gear", new R1Gear());
 		auton.addObject("Red: Lane 1 Gear + Hopper", new R1GearAndHopper());
@@ -75,26 +89,26 @@ public class Robot extends MechaRobotBase{
     }
 
     public void teleopInit(){
-    	Scheduler.getInstance().disable();
     	Drivebase.grabInstance().getRobotPose();
     	Drivebase.grabInstance().resetSensors();
-    	fastLoop.start();
+    	teleopLoop.start();
     
     }
     
     public void teleopPeriodic() {
 
-       Drivebase.grabInstance().setDrivePower(Drivebase.grabInstance().arcadeDriveMath(PS4.getRawAxis(1), PS4.getRawAxis(4), PS4.getRawButton(6)));
-       Hopper.grabInstance().hopperControl(OP.getRawButton(1), OP.getRawButton(3));
-       Climber.grabInstance().climb(OP.getRawButton(4), OP.getRawAxis(1));
-       Shooter.grabInstance().toggleState(OP.getRawButton(1));
-       GearBox.grabInstance().setDeg(PS4.getRawButton(4), PS4.getRawButton(1));
+       Drivebase.grabInstance().setDrivePower(Drivebase.grabInstance().arcadeDriveMath(Ben.getRawAxis(1), Ben.getRawAxis(4), Ben.getRawButton(6)));
+       Hopper.grabInstance().hopperControl(Paul.getRawButton(1), Paul.getRawButton(3));
+       Climber.grabInstance().climb(Paul.getRawButton(4), Paul.getRawAxis(1));
+       Shooter.grabInstance().toggleState(Paul.getRawButton(1));
+       GearBox.grabInstance().setState(Ben.getRawButton(4), Ben.getRawButton(1));
       
 
     }
 
     
     public void disabledInit() {
+    	Scheduler.getInstance().disable();
     	Drivebase.grabInstance().disableSubsystem();
     	Climber.grabInstance().disableSubsystem();
     	GearBox.grabInstance().disableSubsystem();
@@ -102,7 +116,7 @@ public class Robot extends MechaRobotBase{
     	Shooter.grabInstance().disableSubsystem();
     	
     	autonLoop.stop();
-    	fastLoop.stop();
+    	teleopLoop.stop();
     }
     
     public void allPeriodic() {

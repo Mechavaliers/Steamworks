@@ -162,10 +162,7 @@ public class Drivebase extends Subsystem implements Thread{
 	public void disableSubsystem() {
 		leftPower = 0;
 		rightPower = 0;
-	}
-	
-	public void testTheStuff(){
-		controller = new DriveLineController(getRobotPose(), 120, Gains.Drive.ROBOT_MAX_VELOCITY);
+		controller = null;
 	}
 	
 	public void update() {

@@ -1,5 +1,6 @@
 package ca.team4519.FRC2017.auton;
 
+import ca.team4519.FRC2017.Gains;
 import ca.team4519.FRC2017.auton.tasks.TimeoutTask;
 import ca.team4519.FRC2017.auton.tasks.WaitForDistanceTask;
 import ca.team4519.FRC2017.auton.tasks.WaitForTurnTask;
@@ -14,6 +15,10 @@ public abstract class AutoMode extends BaseAutoMode {
 	protected Shooter shooter  = Shooter.grabInstance();
 	protected Hopper hopper = Hopper.grabInstance();
 	protected GearBox gear = GearBox.grabInstance();
+	
+	protected double crossBaseline = 118-Gains.Drive.Wheelbase_Length;
+	protected double clearAirship = 50;
+	protected double halfSpeed = Gains.Drive.ROBOT_MAX_VELOCITY/2;
 	
 	public void wait(double seconds) throws AutonException {
 		runTask(new TimeoutTask(seconds));

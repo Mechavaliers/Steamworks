@@ -29,6 +29,7 @@ public class Constants {
 	//Gear Box Servos
 	public static final int leftServo = 8;
 	public static final int rightServo = 7;
+	public static final int ejectorServo = 9;
 	
 	//Gyro
 	public static final int gyro = 2;

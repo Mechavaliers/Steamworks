@@ -12,6 +12,7 @@ public class Gains {
 		public static double ROBOT_MAX_ROTATIONAL_VELOCITY = 250.0; //75 for some reason 35 is here but im trying 25
 		public static double ROBOT_MAX_ROTATIONAL_ACCELERATION = 250.0; //these are the same, read above. We turn faster then 35 or 75 degs/s
 		public static double Wheelbase_Width = 26.0;
+		public static double Wheelbase_Length = 324.0; // this is a random number FIX THIS AT COMP
 		public static double EncoderDegsPerRev = 360.0;
 		public static double WheelSize_Inches = 4.0;
 		
@@ -56,4 +57,15 @@ public class Gains {
 		
 		public static double AGITATOR_PWM_SEED = 0.0;
 		}
+	
+	public static final class GearBox {
+		private GearBox() {}
+		
+		public static double Left_Open = 35;
+		public static double Left_Closed = 15;
+		public static double Right_Open = 140;
+		public static double Right_Closed = 165;
+		public static double Ejector_Open = 90;
+		public static double Ejector_Closed = 0;
+	}
 }
