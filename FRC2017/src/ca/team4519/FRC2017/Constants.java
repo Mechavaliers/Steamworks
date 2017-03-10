@@ -37,4 +37,11 @@ public class Constants {
 	public static final int climb1 = 1;
 	public static final int climb2 = 2;
 	
+	public static final class AutonMeasurements {
+		private AutonMeasurements() {}
+		
+		public static final double BaselineDistance = 118.0;
+		public static final double SidePegAngle = 30.0;
+	}
+	
 }

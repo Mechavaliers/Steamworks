@@ -33,24 +33,7 @@ public class Gains {
 		public static double Turn_A = 0.0075; //0.00225
 		public static double Turn_Tollerance = 0.0225; //0.75
 		
-	}
-	
-	public static final class Flywheel {
-		private Flywheel() {}
-		
-		public static double RPM_TARGET_KEY = 0.0;
-		public static double RPM_TARGET_WALL = 0.0;
-		
-		public static double TicksPerRev = 0.0;
-		public static double RPM_Deadband = 0.0;
-		
-		public static double RPM_P = 0.0;
-		public static double RPM_I = 0.0;
-		public static double RPM_D = 0.0;
-		public static double RPM_F = 0.0;
-		
-	}
-	
+	}	
 	
 	public static final class Hopper {
 		private Hopper() {}
