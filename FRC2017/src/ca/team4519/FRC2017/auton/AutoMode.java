@@ -1,5 +1,6 @@
 package ca.team4519.FRC2017.auton;
 
+import ca.team4519.FRC2017.Constants;
 import ca.team4519.FRC2017.Gains;
 import ca.team4519.FRC2017.auton.tasks.TimeoutTask;
 import ca.team4519.FRC2017.auton.tasks.WaitForDistanceTask;
@@ -16,7 +17,8 @@ public abstract class AutoMode extends BaseAutoMode {
 	protected Hopper hopper = Hopper.grabInstance();
 	protected GearBox gear = GearBox.grabInstance();
 	
-	protected double crossBaseline = 118-Gains.Drive.Wheelbase_Length;
+	protected double crossBaseline = Constants.AutonMeasurements.BaselineDistance-Gains.Drive.Wheelbase_Length;
+	protected double pegAngle = Constants.AutonMeasurements.SidePegAngle;
 	protected double clearAirship = 50;
 	protected double halfSpeed = Gains.Drive.ROBOT_MAX_VELOCITY/2;
 	

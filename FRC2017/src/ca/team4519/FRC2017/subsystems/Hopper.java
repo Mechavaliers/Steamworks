@@ -18,7 +18,6 @@ public class Hopper extends Subsystem implements Thread{
 
 	Toggle runMotor;
 	
-	boolean isEnabled = false;
 	boolean run = false;
 	boolean runIntake = false;
 	boolean canSwitch = false;
@@ -34,14 +33,8 @@ public class Hopper extends Subsystem implements Thread{
 		bottomMotor = new VictorSP(Constants.serializerMotor);
 		
 	}
-	
-	
-	
-	
-	
 
 	public void hopperControl(boolean shooter, boolean intake){
-		
 		
 		if(!shooter){
 			canSwitch = true;
@@ -58,38 +51,42 @@ public class Hopper extends Subsystem implements Thread{
 		}
 		
 		if(run){
-			bottomMotor.set(-0.25);
-		}else{
-			bottomMotor.set(0.0);
-		}
-		if(run){
-			topMotor.set(-0.3);
+			shootMode();
 		}else if(runIntake){
-		topMotor.set(0.5);
+			intakeMode();
 		}else{
-			topMotor.set(0.0);
+			off();
 		}
 		
 	}
 	
+	public void intakeMode(){
+		topMotor.set(0.5);
+	}
+	
+	public void shootMode(){
+		topMotor.set(-0.3);
+		bottomMotor.set(-0.25);
+	}
+	
+	public void off(){
+		topMotor.set(0.0);
+		bottomMotor.set(0.0);
+	}
 	
 	public void resetSensors() {
-		isEnabled = false;		
 	}
 	
 	public void update() {
-		SmartDashboard.putBoolean("Hopper Running", isEnabled);
 	}
 	
 	public void disableSubsystem() {
-		isEnabled = false;
+		off();
 	}
 
 
 	@Override
-	public void controlLoops() {
-		// TODO Auto-generated method stub
-		
+	public void controlLoops() {	
 	}
 
 }

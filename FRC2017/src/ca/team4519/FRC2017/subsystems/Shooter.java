@@ -75,6 +75,7 @@ public class Shooter extends Subsystem implements Thread{
 
 	public void disableSubsystem() {
 		flywheelState = Flywheel_State.OFF;
+		setState(Flywheel_State.OFF);
 		Flywheel.set(0.0);
 		
 	}
