@@ -17,6 +17,6 @@ public class WaitForDistanceTask extends TimeoutTask {
 	public boolean isDone() {
 		RobotPose pose = drive.getRobotPose();
 		double avg = (pose.getLeftDistance() + pose.getRightDistance())/2;
-		return (forwards ? avg >= distance : avg <= distance || super.isDone());
+		return (forwards ? avg >= (distance-5) : avg <= distance || super.isDone());
 	}
 }

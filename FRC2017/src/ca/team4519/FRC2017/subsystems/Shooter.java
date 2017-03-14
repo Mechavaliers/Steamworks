@@ -79,12 +79,12 @@ public class Shooter extends Subsystem implements Thread{
 		Flywheel.set(0.0);
 		
 	}
-
+//itz gucci fam -- 4252
 	@Override
 	public void controlLoops() {
 		switch(flywheelState){
 		case ON:
-			Flywheel.set(0.60);
+			Flywheel.set(0.675);
 			break;
 		case OFF:
 			Flywheel.set(0.0);

@@ -6,6 +6,7 @@ import ca.team4519.lib.Subsystem;
 import ca.team4519.lib.Thread;
 
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Solenoid;
 
 public class GearBox extends Subsystem implements Thread{
 
@@ -25,7 +26,12 @@ public class GearBox extends Subsystem implements Thread{
 	
 	protected Servo left;
 	protected Servo right;
-	protected Servo ejector;
+	//protected Servo ejector;
+	
+	protected Solenoid ejector;
+	protected Solenoid clamp;
+	protected Solenoid release;
+	
 	protected boolean t1 = false;
 	protected boolean t2 = false;
 	
@@ -39,7 +45,12 @@ public class GearBox extends Subsystem implements Thread{
 		
 		left = new Servo(Constants.leftServo);
 		right = new Servo(Constants.rightServo);
-		ejector = new Servo(Constants.ejectorServo);
+		//ejector = new Servo(Constants.ejectorServo);
+		
+		clamp = new Solenoid(0);
+		release = new Solenoid(1);
+		ejector = new Solenoid(2);
+		
 		
 	}
 
@@ -49,7 +60,7 @@ public class GearBox extends Subsystem implements Thread{
 			t1 = true;
 		}else if(t1){
 			wantClosed = !wantClosed;
-			currentState = Gearage_State.CLOSED; 
+			closed();
 			t1 = false;
 		}
 		
@@ -57,9 +68,11 @@ public class GearBox extends Subsystem implements Thread{
 			t2 = true;
 		}else if(t2){
 			wantEject = !wantEject;
-			currentState = Gearage_State.EJECT; 
+			open();
 			t2 = false;
 		}
+		
+	
 
 	}
 
@@ -79,22 +92,30 @@ public class GearBox extends Subsystem implements Thread{
 	public void disableSubsystem() {	
 		currentState = Gearage_State.CLOSED;
 	}
+	
+	public void open(){
+		left.setAngle(Gains.GearBox.Left_Open);
+		right.setAngle(Gains.GearBox.Right_Open);
+	}
+	
+	public void closed(){
+		right.setAngle(Gains.GearBox.Right_Closed);
+		left.setAngle(Gains.GearBox.Left_Closed);
+	}
 
 	@Override
 	public void controlLoops() {	
-		switch(currentState){
+	/*	switch(currentState){
 		case OPEN:
 			left.setAngle(Gains.GearBox.Left_Open);
 			right.setAngle(Gains.GearBox.Right_Open);
 			break;
 		case EJECT:
-			System.out.println("Eject");
 			left.setAngle(Gains.GearBox.Left_Open);
 			right.setAngle(Gains.GearBox.Right_Open);
 			ejector.setAngle(Gains.GearBox.Ejector_Open);
 			break;
 		case CLOSED:
-			System.out.println("Closed");
 			ejector.setAngle(Gains.GearBox.Ejector_Closed);
 			left.setAngle(Gains.GearBox.Left_Closed);
 			right.setAngle(Gains.GearBox.Right_Closed);
@@ -104,7 +125,7 @@ public class GearBox extends Subsystem implements Thread{
 			left.setAngle(Gains.GearBox.Left_Closed);
 			right.setAngle(Gains.GearBox.Right_Closed);
 			break;
-		}	
+		}*/	
 	}
 }
 

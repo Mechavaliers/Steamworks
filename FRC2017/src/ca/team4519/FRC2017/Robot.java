@@ -32,13 +32,13 @@ public class Robot extends MechaRobotBase{
 	public void robotInit() {
        
 		autonLoop.addThread(Drivebase.grabInstance());
-		autonLoop.addThread(Shooter.grabInstance());
-		teleopLoop.addThread(Shooter.grabInstance());
+		autonLoop.addThread(GearBox.grabInstance());
 		teleopLoop.addThread(GearBox.grabInstance());
 		
 		auton.addObject("Left Gear", new LeftGear());
 		auton.addDefault("Center Gear", new CenterGear());
 		auton.addObject("Right Gear", new RightGear());
+		auton.addObject("Cross Baseline", new CrossBaseline());
 		
 		auton.addObject("Red Gear + Hopper", new RedGearAndHopper());
 		auton.addObject("Red Gear + Boiler", null);
@@ -72,10 +72,10 @@ public class Robot extends MechaRobotBase{
     }
 
     public void teleopInit(){
-    	Shooter.grabInstance().setState(Flywheel_State.OFF);
-    	GearBox.grabInstance().changeState(Gearage_State.CLOSED);
-    	Drivebase.grabInstance().getRobotPose();
+    	GearBox.grabInstance().closed();
     	Drivebase.grabInstance().resetSensors();
+    	Drivebase.grabInstance().getRobotPose();
+    	Drivebase.grabInstance().killController();
     	teleopLoop.start();
     
     }
@@ -83,9 +83,7 @@ public class Robot extends MechaRobotBase{
     public void teleopPeriodic() {
 
        Drivebase.grabInstance().setDrivePower(Drivebase.grabInstance().arcadeDriveMath(Ben.getRawAxis(1), Ben.getRawAxis(4), Ben.getRawButton(6)));
-       Hopper.grabInstance().hopperControl(Paul.getRawButton(1), Paul.getRawButton(3));
        Climber.grabInstance().climb(Paul.getRawButton(4), Paul.getRawAxis(1));
-       Shooter.grabInstance().toggleState(Paul.getRawButton(1));
        GearBox.grabInstance().setState(Ben.getRawButton(4), Ben.getRawButton(1));   
 
     }
@@ -94,18 +92,18 @@ public class Robot extends MechaRobotBase{
     	Drivebase.grabInstance().disableSubsystem();
     	Climber.grabInstance().disableSubsystem();
     	GearBox.grabInstance().disableSubsystem();
-    	Hopper.grabInstance().disableSubsystem();
-    	Shooter.grabInstance().disableSubsystem();
     	
     	autonLoop.stop();
     	teleopLoop.stop();
     }
     
+    public void disabledPeriodic() {
+    	GearBox.grabInstance().changeState(Gearage_State.CLOSED);
+    	}
+    
     public void allPeriodic() {
     	Drivebase.grabInstance().update();
     	Climber.grabInstance().update();
     	GearBox.grabInstance().update();
-    	Hopper.grabInstance().update();
-    	Shooter.grabInstance().update();
     }
 }

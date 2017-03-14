@@ -27,6 +27,12 @@ public class Drivebase extends Subsystem implements Thread{
 		DrivetrainOutput update(RobotPose pose);
 	}
 	
+	//Turning right is -degrees and left is +degrees
+	
+	private final double driveDeadzone = 0.03;
+	private double QSA;
+	private final double turnSensitivity = Gains.Drive.HANDLING_MODIFIER;
+	
 	private final Talon leftDriveMotor;
 	private final Talon rightDriveMotor;
 	
@@ -78,7 +84,11 @@ public class Drivebase extends Subsystem implements Thread{
 		leftEncoder.zero();
 		rightEncoder.zero();
 		gyro.reset();
-		
+				
+	}
+	
+	public void killController() {
+		controller = null;
 	}
 	
 	public double leftEncoderDist(){
@@ -134,6 +144,55 @@ public class Drivebase extends Subsystem implements Thread{
 		return new DrivetrainOutput(leftPower, rightPower);
 	}
 	
+	public DrivetrainOutput cheesyArcade(double throttle, double turn, boolean tip){
+		
+		throttle = (Math.abs(throttle) > Math.abs(driveDeadzone))? throttle : 0.0;
+		turn = (Math.abs(turn) > Math.abs(driveDeadzone))? turn : 0.0;
+		
+		double morePower;
+		double turnPower;
+		
+		if(tip){
+			if(Math.abs(throttle) < 0.2){
+				double alpha = 0.1;
+						QSA = (1-alpha) * QSA + alpha * ((Math.abs(turn) > Math.abs(1.0))? turn: 0.0) * 2;
+			}
+			morePower = 1.0;
+			turnPower = turn;
+		}else{
+		
+			morePower = 0.0;
+			turnPower = Math.abs(throttle) * turn *turnSensitivity - QSA;
+			if(QSA > 1) {
+				QSA-=1;
+			}else if(QSA < -1){
+				QSA += 1;
+			}else{
+				QSA = 0.0;
+			}
+		}
+		
+		double right = throttle + turnPower;
+		double left = throttle - turnPower;
+		
+		if(left > 1.0){
+			right += morePower * (left-1.0);
+			left = 1.0;
+		}else if(right > 1.0){
+			left += morePower * (right-1.0);
+			right = 1.0;
+		}else if(left < -1.0){
+			right -= morePower * (-1.0 - left);
+			left = -1.0;
+		}else if(right < -1.0){
+			left -= morePower * (-1.0 - right);
+			right=1.0;
+			
+		}
+		
+		return new DrivetrainOutput(left, right);
+	}
+	
 	public void setDrivePower(DrivetrainOutput output) {
 		
 		leftDriveMotor.set(output.leftOutput);
@@ -166,12 +225,13 @@ public class Drivebase extends Subsystem implements Thread{
 	}
 	
 	public void update() {
-		SmartDashboard.putNumber("Left Encoder (Inches)", leftEncoderDist());
-		SmartDashboard.putNumber("Rgiht Encoder (Inches)", rightEncoderDist());
-		SmartDashboard.putNumber("Left velocity (Inches/Sec)", leftEncoderVel());
+		SmartDashboard.putNumber("Robot Angle", currHeading());
+		SmartDashboard.putNumber("Left Encoder Distance", leftEncoderDist());
+		SmartDashboard.putNumber("Rgiht Encoder Distance", rightEncoderDist());
+		SmartDashboard.putNumber("Left Encoder Velocity", leftEncoderVel());
+		SmartDashboard.putNumber("Right Encoder Velocity", rightEncoderVel());
 		SmartDashboard.putNumber("Left Output", leftDriveMotor.get());
 		SmartDashboard.putNumber("Right Output", rightDriveMotor.get());
-		SmartDashboard.putNumber("Right Velocity (Inches/Sec)", rightEncoderVel());
 		if(controller == null){
 			SmartDashboard.putNumber("Controller Status: left", 0);
 			SmartDashboard.putNumber("Controller Status: right", 0);	

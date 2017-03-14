@@ -7,12 +7,14 @@ public class Gains {
 			
 		public static double CONTROL_LOOP_TIME = 0.01;
 		
+		public static double HANDLING_MODIFIER = 1.0;
+		
 		public static double ROBOT_MAX_VELOCITY= 100.0;
 		public static double ROBOT_MAX_ACCELERATION = 80.0;
 		public static double ROBOT_MAX_ROTATIONAL_VELOCITY = 250.0; //75 for some reason 35 is here but im trying 25
 		public static double ROBOT_MAX_ROTATIONAL_ACCELERATION = 250.0; //these are the same, read above. We turn faster then 35 or 75 degs/s
-		public static double Wheelbase_Width = 26.0;
-		public static double Wheelbase_Length = 324.0; // this is a random number FIX THIS AT COMP
+		public static double Wheelbase_Width = 35.25;
+		public static double Wheelbase_Length = 39.25; 
 		public static double EncoderDegsPerRev = 360.0;
 		public static double WheelSize_Inches = 4.0;
 		
@@ -44,11 +46,11 @@ public class Gains {
 	public static final class GearBox {
 		private GearBox() {}
 		
-		public static double Left_Open = 35;
-		public static double Left_Closed = 15;
-		public static double Right_Open = 140;
-		public static double Right_Closed = 165;
-		public static double Ejector_Open = 90;
+		public static double Left_Open = 25; //+ is open
+		public static double Left_Closed = 5;
+		public static double Right_Open = 100;
+		public static double Right_Closed = 114; // - is open
+		public static double Ejector_Open = 102.5;
 		public static double Ejector_Closed = 0;
 	}
 }
