@@ -42,8 +42,7 @@ public class DriveLineController implements Controllers{
 		turningPIDLoop.setSetpoint(startingPos.getAngle());
 		
 	}
-	
-	
+
 	public static double encoderDistance(RobotPose pose){
 		return (pose.getLeftDistance() + pose.getRightDistance()) / 2.0;
 	}
@@ -52,8 +51,6 @@ public class DriveLineController implements Controllers{
 		return (pose.getLeftVelocity() + pose.getRightVelocity()) / 2.0;
 	}
 
-
-	
 	public DrivetrainOutput update(RobotPose pose) {
 		controller.update(
 				(pose.getLeftDistance() + pose.getRightDistance()) / 2.0,

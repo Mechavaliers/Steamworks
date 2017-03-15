@@ -4,12 +4,8 @@ import ca.team4519.FRC2017.auton.AutoMode;
 import ca.team4519.FRC2017.auton.AutonRunner;
 import ca.team4519.FRC2017.auton.modes.*;
 import ca.team4519.FRC2017.subsystems.Drivebase;
-import ca.team4519.FRC2017.subsystems.Shooter;
-import ca.team4519.FRC2017.subsystems.Shooter.Flywheel_State;
 import ca.team4519.FRC2017.subsystems.Climber;
 import ca.team4519.FRC2017.subsystems.GearBox;
-import ca.team4519.FRC2017.subsystems.GearBox.Gearage_State;
-import ca.team4519.FRC2017.subsystems.Hopper;
 import ca.team4519.lib.MechaRobotBase;
 import ca.team4519.lib.MultiThreader;
 
@@ -32,9 +28,7 @@ public class Robot extends MechaRobotBase{
 	public void robotInit() {
        
 		autonLoop.addThread(Drivebase.grabInstance());
-		autonLoop.addThread(GearBox.grabInstance());
-		teleopLoop.addThread(GearBox.grabInstance());
-		
+	
 		auton.addObject("Left Gear", new LeftGear());
 		auton.addDefault("Center Gear", new CenterGear());
 		auton.addObject("Right Gear", new RightGear());
@@ -56,7 +50,6 @@ public class Robot extends MechaRobotBase{
     
 
     public void autonomousInit() {
-    	GearBox.grabInstance().changeState(Gearage_State.CLOSED);
     	Drivebase.grabInstance().resetSensors();
     	
     	AutoMode mode = auton.getSelected();
@@ -98,8 +91,8 @@ public class Robot extends MechaRobotBase{
     }
     
     public void disabledPeriodic() {
-    	GearBox.grabInstance().changeState(Gearage_State.CLOSED);
-    	}
+
+    }
     
     public void allPeriodic() {
     	Drivebase.grabInstance().update();

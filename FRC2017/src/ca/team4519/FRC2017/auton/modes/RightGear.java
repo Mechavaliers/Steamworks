@@ -2,7 +2,7 @@ package ca.team4519.FRC2017.auton.modes;
 
 import ca.team4519.FRC2017.auton.AutoMode;
 import ca.team4519.FRC2017.auton.AutonException;
-import ca.team4519.FRC2017.subsystems.GearBox.Gearage_State;
+
 
 public class RightGear extends AutoMode{
 	protected double toPeg = crossBaseline + 20;
@@ -16,11 +16,11 @@ public class RightGear extends AutoMode{
 		waitForTurn(pegAngle, true, 2);
 		drive.setDistanceTarget(toPeg, halfSpeed);
 		waitForDriveDistance(toPeg, true, 2);
-		gear.changeState(Gearage_State.EJECT);
+		gear.open();
 		wait(0.5);
 		drive.setDistanceTarget(crossBaseline);
 		waitForDriveDistance(crossBaseline, false, 1.5);
-		gear.changeState(Gearage_State.CLOSED);
+		gear.closed();
 		drive.setTurnTarget(0);
 		waitForTurn(0, false, 1);
 
@@ -28,7 +28,7 @@ public class RightGear extends AutoMode{
 
 	@Override
 	public void init() {
-		gear.changeState(Gearage_State.CLOSED);
+		gear.closed();
 	}
 
 }

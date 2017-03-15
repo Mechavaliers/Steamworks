@@ -4,10 +4,13 @@ import ca.team4519.FRC2017.Constants;
 import ca.team4519.lib.Subsystem;
 import ca.team4519.lib.Thread;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.Compressor;
 
 public class Climber extends Subsystem implements Thread{
 
 	private static Climber thisInstance = new Climber();
+	
+	Compressor compressor = new Compressor();
 	
 	public static Climber grabInstance() {
 		return thisInstance;
@@ -25,10 +28,12 @@ public class Climber extends Subsystem implements Thread{
 	
 	public void climb(boolean canClimb, double input){
 		if(canClimb){
+			compressor.stop();
 			input = Math.abs(input);
 		Climb1.set(input > 0.1? -input:0.0);
 		Climb2.set(input > 0.1? input:0.0);
 		}else{
+			compressor.start();
 			Climb1.set(0.0);
 			Climb2.set(0.0);
 		}

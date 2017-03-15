@@ -2,7 +2,6 @@ package ca.team4519.FRC2017.auton.modes;
 
 import ca.team4519.FRC2017.auton.AutoMode;
 import ca.team4519.FRC2017.auton.AutonException;
-import ca.team4519.FRC2017.subsystems.GearBox.Gearage_State;
 
 public class LeftGear extends AutoMode{
 	protected double toPeg = crossBaseline + 40;
@@ -28,7 +27,7 @@ public class LeftGear extends AutoMode{
 
 	@Override
 	public void init() {
-		gear.changeState(Gearage_State.CLOSED);
+		gear.closed();
 	}
 
 }
