@@ -30,6 +30,14 @@ public class RobotPose {
 		this.angularVelocity = angularVel;
 	}
 	
+	public double getAverageDistance() {
+		return (getLeftDistance() + getRightDistance()) / 2;
+	}
+	
+	public double getAverageVelocity() {
+		return (getLeftVelocity() + getRightVelocity()) / 2;
+	}
+	
 	public double getLeftDistance(){
 		return leftDistance;
 	}
