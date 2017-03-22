@@ -2,7 +2,6 @@ package ca.team4519.FRC2017.subsystems.controllers;
 
 import ca.team4519.FRC2017.Gains;
 import ca.team4519.lib.pid.TurningPID;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import ca.team4519.lib.DrivetrainOutput;
 import ca.team4519.lib.RobotPose;
 
