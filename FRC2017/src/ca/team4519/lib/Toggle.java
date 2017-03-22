@@ -5,7 +5,7 @@ public class Toggle {
 	boolean canSwitch = false;
 	boolean state = false;
 	
-	public Toggle(boolean forceToggle){
+	public boolean flipToggle(boolean forceToggle){
 		
 		if(!forceToggle){
 			canSwitch = true;
@@ -13,6 +13,7 @@ public class Toggle {
 			state = !state;
 			canSwitch = false;
 		}
+		return state;
 	}
 	
 	public boolean getState(){
