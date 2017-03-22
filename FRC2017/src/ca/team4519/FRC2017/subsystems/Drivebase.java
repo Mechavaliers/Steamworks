@@ -8,6 +8,8 @@ import ca.team4519.lib.Thread;
 import ca.team4519.lib.Subsystem;
 import ca.team4519.lib.DrivetrainOutput;
 import ca.team4519.lib.RobotPose;
+import ca.team4519.lib.motion.Coords;
+import ca.team4519.lib.motion.Path;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,6 +42,8 @@ public class Drivebase extends Subsystem implements Thread{
 	private final MA3AnalogEncoder leftEncoder;
 	private final MA3AnalogEncoder rightEncoder;
 	
+	private Coords robotCoords = new Coords(0,0);
+	
 	private AnalogGyro gyro;
 	
 	private Controllers controller = null;
@@ -61,22 +65,34 @@ public class Drivebase extends Subsystem implements Thread{
 		rightEncoder =new MA3AnalogEncoder(2);
 
 	}
+	
+	public void followPath(Path path, double velocity) {	
+		double whatVelocity = Math.min(Gains.Drive.ROBOT_MAX_VELOCITY, Math.max(velocity, 0));
+		setTurnTarget(path.update(robotCoords).getAngle());
+		setDistanceTarget(path.update(robotCoords).getDistance(), whatVelocity);	
+	}
+	
+	public void followPath(Path path) {
+		setTurnTarget(path.update(robotCoords).getAngle());
+		setDistanceTarget(path.update(robotCoords).getDistance());	
+	}
+	
 	 
-	public void setDistanceTarget(double distance, double velocity){
+	public void setDistanceTarget(double distance, double velocity) {
 		double whatVelocity = Math.min(Gains.Drive.ROBOT_MAX_VELOCITY, Math.max(velocity, 0));
 		controller = new DriveLineController(getRobotPose(), distance, whatVelocity);
 	}
 	
-	public void setDistanceTarget(double distance){
+	public void setDistanceTarget(double distance) {
 		setDistanceTarget(distance,Gains.Drive.ROBOT_MAX_VELOCITY);
 	}
 	
-	public void setTurnTarget(double angle, double velocity){
+	public void setTurnTarget(double angle, double velocity) {
 		double whatVelocity = Math.min(Gains.Drive.ROBOT_MAX_ROTATIONAL_VELOCITY, Math.max(velocity,  0));
 		controller = new RotationController(getRobotPose(), angle, whatVelocity);
 	}
 	
-	public void setTurnTarget(double angle){
+	public void setTurnTarget(double angle) {
 		setTurnTarget(angle, Gains.Drive.ROBOT_MAX_ROTATIONAL_VELOCITY);
 	}
 	
@@ -107,6 +123,10 @@ public class Drivebase extends Subsystem implements Thread{
 		return rightEncoder.getRate() * inchesPerTick;
 	}
 	
+	public double averageDistance() {
+		return (leftEncoderDist() + rightEncoderDist()) / 2;
+	}
+	
 	public void resetEncoders() {
 		leftEncoder.zero();
 		rightEncoder.zero();
@@ -114,6 +134,16 @@ public class Drivebase extends Subsystem implements Thread{
 	
 	public double currHeading() {
 		return gyro.getAngle();
+	}
+	
+	public Coords getCoords(){
+		getRobotPose();
+		
+		double x = averageDistance() * Math.sin(gyro.getAngle());
+		double y = averageDistance() * Math.cos(gyro.getAngle());
+		
+		return new Coords(x,y);
+		
 	}
 		
 	public DrivetrainOutput arcadeDriveMath(double forwardAxis, double turningAxis, boolean switchDPI) {
@@ -200,6 +230,7 @@ public class Drivebase extends Subsystem implements Thread{
 	}
 	
 	public void controlLoops(){
+		robotCoords = getCoords();
 		if(controller == null){
 			return;
 		}
@@ -232,6 +263,7 @@ public class Drivebase extends Subsystem implements Thread{
 		SmartDashboard.putNumber("Right Encoder Velocity", rightEncoderVel());
 		SmartDashboard.putNumber("Left Output", leftDriveMotor.get());
 		SmartDashboard.putNumber("Right Output", rightDriveMotor.get());
+		SmartDashboard.putString("Robot Coords", robotCoords.toString());
 		if(controller == null){
 			SmartDashboard.putNumber("Controller Status: left", 0);
 			SmartDashboard.putNumber("Controller Status: right", 0);	
