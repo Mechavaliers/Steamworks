@@ -136,6 +136,10 @@ public class Drivebase extends Subsystem implements Thread{
 		return gyro.getAngle();
 	}
 	
+	public double rotRate() {
+		return gyro.getRate();
+	}
+	
 	public Coords getCoords(){
 		getRobotPose();
 		
@@ -257,6 +261,7 @@ public class Drivebase extends Subsystem implements Thread{
 	
 	public void update() {
 		SmartDashboard.putNumber("Robot Angle", currHeading());
+		SmartDashboard.putNumber("Robot Rotational Rate", rotRate());
 		SmartDashboard.putNumber("Left Encoder Distance", leftEncoderDist());
 		SmartDashboard.putNumber("Rgiht Encoder Distance", rightEncoderDist());
 		SmartDashboard.putNumber("Left Encoder Velocity", leftEncoderVel());

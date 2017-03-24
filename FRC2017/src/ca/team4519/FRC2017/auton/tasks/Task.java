@@ -1,6 +1,7 @@
 package ca.team4519.FRC2017.auton.tasks;
 
 import ca.team4519.FRC2017.subsystems.Drivebase;
+import ca.team4519.FRC2017.subsystems.GearBox;
 
 public abstract class Task {
 
