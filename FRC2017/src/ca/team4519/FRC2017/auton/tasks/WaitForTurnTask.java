@@ -1,7 +1,5 @@
 package ca.team4519.FRC2017.auton.tasks;
 
-import ca.team4519.FRC2017.subsystems.Drivebase;
-
 public class WaitForTurnTask  extends TimeoutTask{
 
 	double angle;
@@ -15,7 +13,6 @@ public class WaitForTurnTask  extends TimeoutTask{
 
 	
 	public boolean isDone() {
-	double robotAngle = Drivebase.grabInstance().getRobotPose().getAngle();
-    return super.isDone() || positive ?  robotAngle >= angle : robotAngle <= angle;
+    return super.isDone() || positive ?  drive.currHeading() >= angle : drive.currHeading() <= angle;
 	}
 }
