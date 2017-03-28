@@ -1,7 +1,5 @@
 package ca.team4519.FRC2017.auton.tasks;
 
-import ca.team4519.lib.RobotPose;
-
 public class WaitForDistanceTask extends TimeoutTask {
 
 	double distance;
@@ -14,9 +12,7 @@ public class WaitForDistanceTask extends TimeoutTask {
 	}
 
 	@Override
-	public boolean isDone() {
-		RobotPose pose = drive.getRobotPose();
-		double avg = (pose.getLeftDistance() + pose.getRightDistance())/2;
-		return (forwards ? avg >= (distance-5) : avg <= distance || super.isDone());
+	public boolean isDone() { 
+		return ((forwards ? drive.averageDistance() >= (distance-5) : drive.averageDistance() <= distance )|| super.isDone());
 	}
 }
