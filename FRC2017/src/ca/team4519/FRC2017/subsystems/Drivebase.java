@@ -62,7 +62,7 @@ public class Drivebase extends Subsystem implements Thread{
 		gyro = new AnalogGyro(0);
 		
 		leftEncoder = new MA3AnalogEncoder(1);
-		rightEncoder =new MA3AnalogEncoder(2);
+		rightEncoder = new MA3AnalogEncoder(2);
 
 	}
 	
@@ -273,8 +273,8 @@ public class Drivebase extends Subsystem implements Thread{
 			SmartDashboard.putNumber("Controller Status: left", 0);
 			SmartDashboard.putNumber("Controller Status: right", 0);	
 		}else{
-		SmartDashboard.putNumber("Controller Status: left", controller.update(getRobotPose()).leftOutput);
-		SmartDashboard.putNumber("Controller Status: right", controller.update(getRobotPose()).rightOutput);
+			SmartDashboard.putNumber("Controller Status: left", controller.update(getRobotPose()).leftOutput);
+			SmartDashboard.putNumber("Controller Status: right", controller.update(getRobotPose()).rightOutput);
 		}
 		
 	}

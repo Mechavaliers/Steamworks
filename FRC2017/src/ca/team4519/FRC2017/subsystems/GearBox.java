@@ -19,11 +19,8 @@ public class GearBox extends Subsystem{
 
 	protected Servo left;
 	protected Servo right;
-	
-	protected Solenoid ejector;
-	protected Solenoid clamp;
-	protected Solenoid release;
-	
+	protected Servo ejector;
+
 	protected boolean t1 = false;
 	protected boolean t2 = false;
 	
@@ -35,10 +32,7 @@ public class GearBox extends Subsystem{
 		
 		left = new Servo(Constants.leftServo);
 		right = new Servo(Constants.rightServo);
-		
-		clamp = new Solenoid(0);
-		release = new Solenoid(1);
-		ejector = new Solenoid(2);
+		ejector  = new Servo(Constants.ejectorServo);
 		
 		
 	}
@@ -78,22 +72,18 @@ public class GearBox extends Subsystem{
 	public void open() {
 		left.setAngle(Gains.GearBox.Left_Open);
 		right.setAngle(Gains.GearBox.Right_Open);
-		clamp.set(false);
-		release.set(true);
 	}
 	
 	public void closed() {
 		right.setAngle(Gains.GearBox.Right_Closed);
 		left.setAngle(Gains.GearBox.Left_Closed);
-		clamp.set(true);
-		release.set(false);
-		ejector.set(false);
+		ejector.setAngle(Gains.GearBox.Ejector_Closed);
 	}
 	
 	public void eject() {
 		open();
 		Timer.delay(0.1);
-		ejector.set(true);
+		ejector.setAngle(Gains.GearBox.Ejector_Open);
 	}
 
 }
