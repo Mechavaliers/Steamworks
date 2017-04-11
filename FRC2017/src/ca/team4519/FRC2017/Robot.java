@@ -30,31 +30,26 @@ public class Robot extends MechaRobotBase{
        
 		autonLoop.addThread(Drivebase.grabInstance());
 	
-		auton.addObject("Left Gear", new LeftGear());
+
 		auton.addDefault("Center Gear", new CenterGear());
-		auton.addObject("Right Gear", new RightGear());
+		auton.addObject("Center Gear Go Left", new CenterGearGoLeft());
+		auton.addObject("Center Gear Go Right", new CenterGearGoRight());
+
 		auton.addObject("Cross Baseline", new CrossBaseline());
 		
-		auton.addObject("Red Gear + Hopper", new RedGearAndHopper());
-		auton.addObject("Red Gear + Boiler", null);
-		auton.addObject("Red Hopper + Boiler", null);
-		auton.addObject("RED: Do Everything", new RedDoEverything());
-		
-		auton.addObject("Blue Gear + Hopper", null);
-		auton.addObject("Blue Gear + Boiler", null);
-		auton.addObject("Blue Hopper + Boiler", null);
+		auton.addObject("Right Gear", new RightGear());
+		auton.addObject("left Gear", new LeftGear());
+		auton.addObject("Spin Test", new TurnTest());
 
     	SmartDashboard.putData("Selector 2.0", auton);
     	
     }
-    
-    
 
     public void autonomousInit() {
     	Drivebase.grabInstance().resetSensors();
     	
     	AutoMode mode = auton.getSelected();
-    	
+    	//AutoMode mode = new RightGear();
     	autonLoopRunner.selectAuto(mode);
     	
     	autonLoop.start();
@@ -78,7 +73,8 @@ public class Robot extends MechaRobotBase{
 
        Drivebase.grabInstance().setDrivePower(Drivebase.grabInstance().arcadeDriveMath(Ben.getRawAxis(1), Ben.getRawAxis(4), Ben.getRawButton(6)));
        Climber.grabInstance().climb(Paul.getRawButton(4), Paul.getRawAxis(1));
-       GearBox.grabInstance().setState(Ben.getRawButton(4), Ben.getRawButton(1));   
+       GearBox.grabInstance().setState(Ben.getRawButton(4), Ben.getRawButton(1), Paul.getRawButton(3));   
+       GearBox.grabInstance().holderState(Paul.getRawButton(2));
 
     }
 

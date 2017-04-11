@@ -11,8 +11,8 @@ public class CrossBaseline extends AutoMode{
 	protected void sequence() throws AutonException {
 		gear.closed();
 		drive.setDistanceTarget((crossBaseline/2)+20, halfSpeed);
-		waitForDriveDistance((crossBaseline/2) +20, true, 5);
-		drive.setTurnTarget(-180, 83.3);
+		//waitForDriveDistance((crossBaseline/2) +20, true, 5);
+		//drive.setTurnTarget(-180, 83.3);
 	
 	}
 

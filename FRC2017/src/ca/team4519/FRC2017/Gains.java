@@ -29,11 +29,11 @@ public class Gains {
 		public static double DistTurn_D = 0.0;
 		public static double Dist_Tollerance = 0.75;
 
-		public static double Turn_P = 0.0825; //0.0825
+		public static double Turn_P = 0.1; //0.0825
 		public static double Turn_I = 0.0; 
-		public static double Turn_D = 0.023; // 0.015
-		public static double Turn_V = 0.085; //0.05
-		public static double Turn_A = 0.0075; //0.00225
+		public static double Turn_D = 0.00; // 0.015
+		public static double Turn_V = 0.00725; //0.05
+		public static double Turn_A = 0.001; //0.00225
 		public static double Turn_Tollerance = 0.0225; //0.75
 		
 	}	
@@ -48,9 +48,11 @@ public class Gains {
 		private GearBox() {}
 		
 		public static double Left_Open = 25; //+ is open
-		public static double Left_Closed = 5;
-		public static double Right_Open = 100;
-		public static double Right_Closed = 114; // - is open
+		public static double Left_Closed = 0;
+		public static double Left_Hug = 0;
+		public static double Right_Open = 95;
+		public static double Right_Closed = 118; // - is open
+		public static double Right_Hug = 123;
 		public static double Ejector_Open = 102.5;
 		public static double Ejector_Closed = 0;
 	}

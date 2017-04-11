@@ -10,19 +10,18 @@ public class RightGear extends AutoMode{
 	@Override
 	protected void sequence() throws AutonException {
 		
-		drive.setDistanceTarget(crossBaseline);
-		waitForDriveDistance(crossBaseline, true, 2);
-		drive.setTurnTarget(pegAngle, 83.3);
-		waitForTurn(pegAngle, true, 2);
-		drive.setDistanceTarget(toPeg, halfSpeed);
-		waitForDriveDistance(toPeg, true, 2);
+		drive.setDistanceTarget(34.5);
+		waitForDriveDistance(34.5, true, 2);
+		drive.setTurnTarget(60, 25);
+		waitForTurn(60, true, 4);
+		drive.resetEncoders();
+		drive.setDistanceTarget(34.5, halfSpeed/4);
+		waitForDriveDistance(34.5, true, 2);
 		gear.open();
 		wait(0.5);
-		drive.setDistanceTarget(crossBaseline);
-		waitForDriveDistance(crossBaseline, false, 1.5);
+		drive.setDistanceTarget(0);
+		waitForDriveDistance(0, false, 1.5);
 		gear.closed();
-		drive.setTurnTarget(0);
-		waitForTurn(0, false, 1);
 
 	}
 

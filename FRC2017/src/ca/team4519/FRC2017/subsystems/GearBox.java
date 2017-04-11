@@ -37,7 +37,7 @@ public class GearBox extends Subsystem{
 		
 	}
 
-	public void setState(boolean closed, boolean open) {
+	public void setState(boolean closed, boolean open, boolean hug) {
 		
 		if(!closed){
 			t1 = true;
@@ -53,6 +53,21 @@ public class GearBox extends Subsystem{
 			wantEject = !wantEject;
 			open();
 			t2 = false;
+		}
+		if(!hug){
+			t2 = true;
+		}else if(t2){
+			wantEject = !wantEject;
+			hug();
+			t2 = false;
+		}
+	}
+	
+	public void holderState(boolean open) {
+		if(open){
+			ejector.setAngle(90);
+		}else{
+			ejector.setAngle(180);
 		}
 	}
 	
@@ -77,13 +92,13 @@ public class GearBox extends Subsystem{
 	public void closed() {
 		right.setAngle(Gains.GearBox.Right_Closed);
 		left.setAngle(Gains.GearBox.Left_Closed);
-		ejector.setAngle(Gains.GearBox.Ejector_Closed);
+	//	ejector.setAngle(Gains.GearBox.Ejector_Closed);
 	}
 	
-	public void eject() {
-		open();
-		Timer.delay(0.1);
-		ejector.setAngle(Gains.GearBox.Ejector_Open);
+	public void hug() {
+		right.setAngle(Gains.GearBox.Right_Hug);
+		left.setAngle(Gains.GearBox.Left_Hug);
+		
 	}
 
 }

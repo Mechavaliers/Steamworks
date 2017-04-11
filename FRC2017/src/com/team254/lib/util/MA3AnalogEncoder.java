@@ -64,7 +64,7 @@ public class MA3AnalogEncoder {
     		lastVal = 0;
     		firstRun = true;
     	}
-    	double number =(getRawAngle().getDegrees() - lastVal)/0.01;
+    	double number =(getRawAngle().getDegrees() - lastVal)/0.02;
     	lastVal = getRawAngle().getDegrees();
     	return number;
     }

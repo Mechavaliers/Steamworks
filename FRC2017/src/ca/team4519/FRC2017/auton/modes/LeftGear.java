@@ -8,20 +8,18 @@ public class LeftGear extends AutoMode{
 	
 	@Override
 	protected void sequence() throws AutonException {
-		gear.closed();
-		drive.setDistanceTarget(crossBaseline/2,  halfSpeed/3);
-		waitForDriveDistance(crossBaseline/2, true, 2);
-		drive.setTurnTarget(-pegAngle, 83.3);
-		waitForTurn(-pegAngle, false, 10);
-		drive.setDistanceTarget(toPeg/2, halfSpeed/3);
-		waitForDriveDistance(toPeg/2, true, 2);
+		drive.setDistanceTarget(24);
+		waitForDriveDistance(24, true, 2);
+		drive.setTurnTarget(-59, 25);
+		waitForTurn(-59, false, 4);
+		//wait(1.5);
+		drive.setDistanceTarget(48, halfSpeed/4);
+		waitForDriveDistance(48, true, 2);
 		gear.open();
 		wait(0.5);
-		drive.setDistanceTarget(crossBaseline/2);
-		waitForDriveDistance(crossBaseline/2, false, 1.5);
+		drive.setDistanceTarget(30);
+		waitForDriveDistance(30, false, 1.5);
 		gear.closed();
-		drive.setTurnTarget(0);
-		waitForTurn(0, true, 10);
 		
 	}
 
